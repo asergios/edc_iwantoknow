@@ -55,8 +55,6 @@ class index(View):
 '''
 	Answer to "How much time has passed since my birthday"
 
-	TODO: error message and dates after today not allowed
-
 	'''
 def b_day(request):
 	if request.POST:
@@ -138,6 +136,14 @@ def time_in(request):
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
 		return redirect('index')
+
+
+'''
+	About Page
+
+	'''
+def about(request):
+	return render(request,'about.html')
 
 
 '''
