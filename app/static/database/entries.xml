@@ -1,0 +1,13 @@
+<root>
+
+<entrie>
+  <title>How much time has passed since my birthday</title>
+  <action>b_day</action>
+</entrie>
+
+<entrie>
+  <title>What time is it in</title>
+  <action>time</action>
+</entrie>
+
+</root>
