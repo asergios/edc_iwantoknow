@@ -5,14 +5,14 @@ from django.views import View
 import xml.etree.ElementTree as xmlParser
 import requests
 import app.static.database.BaseXClient.BaseXClient as BaseXClient
-
+from .forms import *
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
 API_KEY 	= 'JX8868-T9QE9WHQTJ'
 API_LINK 	= 'http://api.wolframalpha.com/v2/query?appid=' + API_KEY + '&input='
+# Months array, used to translate number of month to string
 MONTHS 		= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-from .forms import *
 
 '''
 	Index View 
@@ -20,23 +20,21 @@ from .forms import *
 	'''
 class index(View):
 
-	# Response for a GET request
+	# Response for a GET request, simply returns index page
 	def get(self, request, *args, **kwargs):
-		print(args)
-		form = DateForm()
 		return render(request,'index.html', { 'formAction': '' , 
 											  'form': '',
 											  'entries': get_entries()
 											})
 
-	# Response for a POST request
+	# Response for a POST request, returns index page, now with the form for the user to fill
 	def post(self, request, *args, **kwargs):
 		if "pick" in request.POST:
 			user_pick = request.POST.get("pick")
-			form = self.translate_user_pick(user_pick)
+			action, form = self.translate_user_pick(user_pick)
 			return render(request,'index.html', {'user_picked': user_pick, 
-												 'formAction': form[0], 
-												 'form': form[1],
+												 'formAction': action, 
+												 'form': form,
 												 'entries': get_entries()
 												 })
 		else:
@@ -45,39 +43,94 @@ class index(View):
 
 	# From user_pick get the form actions and fields
 	def translate_user_pick(self, user_pick):
+		# Getting form actiong from DataBase
 		form_action = get_form_action(user_pick)
 
 		if (form_action == "b_day"):
 			return (form_action, DateForm())
 		else:
-			return (form_action, DateForm())
+			return (form_action, InputForm())
 
 
 '''
 	Answer to "How much time has passed since my birthday"
 
+	TODO: error message and dates after today not allowed
+
 	'''
 def b_day(request):
 	if request.POST:
+		# Filling DateForm with request
 		validate = DateForm(request.POST)
+		# Getting title for "b_day" action
 		user_pick = get_user_pick("b_day")
-		# if form is valid prepare API call
+
+		# If form is valid prepare API call
 		if( validate.is_valid() ):
 			date = validate.cleaned_data['date']
-			month = MONTHS[date.month - 1]
-			api_input = str(date.day) + '+' + month + '+' + str(date.year)
 
+			# Translating month number to string
+			month = MONTHS[date.month - 1]
+
+			api_input = str(date.day) + '+' + month + '+' + str(date.year)
 			api_answer = api_call(api_input)
+
+			# Finding Pod with "DifferenceConversions" ID
+			diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
+			# Converting Sub Elements to Tezt
+			diff_days = [d.text for d in diff_days]
+
 			return render(request,'bday.html', {'user_picked': user_pick, 
 												 'formAction': "b_day", 
 												 'form': validate,
 												 'entries': get_entries(),
-												 'results' : api_answer
+												 'results' : diff_days
 												 })
-		# form not valid TODO: error message	
+
+		# Form not valid / render index (later will error message)
 		else:
 			return render(request,'index.html', {'user_picked': user_pick, 
 												 'formAction': "b_day", 
+												 'form': validate,
+												 'entries': get_entries()
+												 })
+	# If the request was a GET (or something not a POST), the user is redirected to index page
+	else:
+		return redirect('index')
+
+
+'''
+	Answer to "What time is it in"
+
+	'''
+def time_in(request):
+	if request.POST:
+		# Filling InputForm with request
+		validate = InputForm(request.POST)
+		# Getting title for "time_in" action
+		user_pick = get_user_pick("time_in")
+
+		# If form is valid prepare API call
+		if( validate.is_valid() ):
+			api_input = "time in " + validate.cleaned_data['input_form']
+			api_answer = api_call(api_input)
+
+			# Getting hours in locatin and timeoffset from current location
+			hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
+			time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
+
+			return render(request,'time_in.html', {'user_picked': user_pick, 
+												 'formAction': "time_in", 
+												 'form': validate,
+												 'entries': get_entries(),
+												 'hour' : hours_in_location,
+												 'offset': time_offset
+												 })
+
+		# Form not valid / render index (later will error message)
+		else:
+			return render(request,'index.html', {'user_picked': user_pick, 
+												 'formAction': "time_in", 
 												 'form': validate,
 												 'entries': get_entries()
 												 })
@@ -93,21 +146,16 @@ def b_day(request):
 	'''
 def api_call(api_input):
 	call = API_LINK + api_input
+	debbuging = 1
 
+	if(debbuging):
+		tree = xmlParser.parse('app/static/database/time_in.xml')
+		tree = tree.getroot()
+	else:
+		response = requests.get(call)
+		tree = xmlParser.fromstring(response.content)
 	
-	# Commented to save queries
-	response = requests.get(call)
-	tree = xmlParser.fromstring(response.content)
-	
-	# Sample file, for debbuging
-	#tree = xmlParser.parse('app/static/database/query.xml')
-	#root = tree.getroot()
-
-	diff_days = tree.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
-	# Converting Sub Elements to Tezt
-	diff_days = [d.text for d in diff_days]
-
-	return diff_days
+	return tree
 
 
 '''

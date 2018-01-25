@@ -55,7 +55,13 @@ body {
 .main-title {
 	text-align: center;
 	margin-top: 25%;
+	margin-bottom: 0;
 	font-size: 6vw;
+}
+
+.sub-title{
+	text-align: center;
+	font-size: 1vw;
 }
 
 .main-title-top {
@@ -122,6 +128,21 @@ body {
 }
 
 .date-input{
+	width: 25%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    background-image: url('images/searchicon.png');
+    background-size: 20px 20px;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+	margin: 16px;
+	font-size: 16px;
+}
+
+.char-input{
 	width: 25%;
     box-sizing: border-box;
     border: 2px solid #ccc;

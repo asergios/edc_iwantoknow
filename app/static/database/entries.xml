@@ -7,7 +7,7 @@
 
 <entrie>
   <title>What time is it in</title>
-  <action>time</action>
+  <action>time_in</action>
 </entrie>
 
 </root>

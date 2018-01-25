@@ -14,7 +14,7 @@
 	<body>
 		<!-- Navigation Bar -->
 		<div class="nav-bar">
-		  <a href="#" class="nav-item-left">Home</a>
+		  <a href="/" class="nav-item-left">Home</a>
 		  <a href="#" class="nav-item-right">About</a>
 		  <a href="#" class="nav-item-right">Report</a>
 		  <a href="#" class="nav-item-right">Git</a>
@@ -23,6 +23,7 @@
 		<div class="content">
 			<!-- Main Title -->
 			<h1 class="main-title">I WanTo Know</h1>
+			<h2 class="sub-title">Find out what Wolfram|Alpha can let you know!</h2>
 
 			<!-- DropDown Menu -->
 			<div class="dropdown-menu">
@@ -30,7 +31,7 @@
 				<button class="dropdown-button">
 					<!-- Checking if user_picked parameter was given by render -->
 					{% if user_picked %}
-						{{ user_picked }}
+						{{user_picked}}
 					{% else %}
 						I want to know...
 					{% endif %}

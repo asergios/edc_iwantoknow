@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<queryresult success='true'
+    error='false'
+    numpods='4'
+    datatypes='CalendarEvent,City'
+    timedout=''
+    timedoutpods=''
+    timing='1.695'
+    parsetiming='0.717'
+    parsetimedout='false'
+    recalculate=''
+    id='MSPa32282163c7ei8bg650000320c485gidda0343'
+    host='http://www4b.wolframalpha.com'
+    server='14'
+    related='http://www4b.wolframalpha.com/api/v2/relatedQueries.jsp?id=MSPa42282163c7ei8bg6500001093f02f7c4227935794385109236241385'
+    version='2.6'>
+ <pod title='Input interpretation'
+     scanner='Identity'
+     id='Input'
+     position='100'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP52282163c7ei8bg65000040c5c47hd6a72fdb?MSPStoreType=image/gif&amp;s=14'
+       alt='current time in Moscow, Russia'
+       title='current time in Moscow, Russia'
+       width='227'
+       height='23' />
+   <plaintext>current time in Moscow, Russia</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Result'
+     scanner='Identity'
+     id='Result'
+     position='200'
+     error='false'
+     numsubpods='1'
+     primary='true'>
+  <subpod title=''
+      primary='true'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP62282163c7ei8bg6500002hfa78fg3cif0ieh?MSPStoreType=image/gif&amp;s=14'
+       alt='7:56:34 pm MSK  |  Thursday, January 25, 2018'
+       title='7:56:34 pm MSK  |  Thursday, January 25, 2018'
+       width='321'
+       height='18' />
+   <plaintext>7:56:34 pm MSK  |  Thursday, January 25, 2018</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Time offset from WET'
+     scanner='Date'
+     id='TimeOffsets'
+     position='300'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP72282163c7ei8bg6500001ecg14fa23cca6f8?MSPStoreType=image/gif&amp;s=14'
+       alt='+3 hours'
+       title='+3 hours'
+       width='56'
+       height='18' />
+   <plaintext>+3 hours</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Clocks'
+     scanner='Date'
+     id='ClockImages'
+     position='400'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP82282163c7ei8bg65000031h9e5h7ci6003h3?MSPStoreType=image/gif&amp;s=14'
+       alt='Moscow
+
+7:56:34 pm  MSK
+Thursday, January 25               Vila Nova de Gaia, Portugal
+
+4:56:34 pm  WET
+Thursday, January 25'
+       title='Moscow
+
+7:56:34 pm  MSK
+Thursday, January 25               Vila Nova de Gaia, Portugal
+
+4:56:34 pm  WET
+Thursday, January 25'
+       width='390'
+       height='162' />
+   <plaintext>Moscow
+
+7:56:34 pm  MSK
+Thursday, January 25               Vila Nova de Gaia, Portugal
+
+4:56:34 pm  WET
+Thursday, January 25</plaintext>
+  </subpod>
+ </pod>
+ <assumptions count='1'>
+  <assumption type='SubCategory'
+      word='moscow'
+      template='Assuming ${desc1}. Use ${desc2} instead'
+      count='8'>
+   <value name='{Moscow, Moscow, Russia}'
+       desc='Moscow (Russia)'
+       input='*DPClash.CityE.moscow-_**Moscow.Moscow.Russia--' />
+   <value name='{Moscow, Idaho, UnitedStates}'
+       desc='Moscow (Idaho, USA)'
+       input='*DPClash.CityE.moscow-_**Moscow.Idaho.UnitedStates--' />
+   <value name='{Moscow, Pennsylvania, UnitedStates}'
+       desc='Moscow (Pennsylvania, USA)'
+       input='*DPClash.CityE.moscow-_**Moscow.Pennsylvania.UnitedStates--' />
+   <value name='{Moscow, Maine, UnitedStates}'
+       desc='Moscow (Maine, USA)'
+       input='*DPClash.CityE.moscow-_**Moscow.Maine.UnitedStates--' />
+   <value name='{Moscow, Wisconsin, UnitedStates}'
+       desc='Moscow (Wisconsin, USA)'
+       input='*DPClash.CityE.moscow-_**Moscow.Wisconsin.UnitedStates--' />
+   <value name='{Moscow, Tennessee, UnitedStates}'
+       desc='Moscow (Tennessee, USA)'
+       input='*DPClash.CityE.moscow-_**Moscow.Tennessee.UnitedStates--' />
+   <value name='{Moscow, Kansas, UnitedStates}'
+       desc='Moscow (Kansas, USA)'
+       input='*DPClash.CityE.moscow-_**Moscow.Kansas.UnitedStates--' />
+   <value name='{Moscow, Ohio, UnitedStates}'
+       desc='Moscow (Ohio, USA)'
+       input='*DPClash.CityE.moscow-_**Moscow.Ohio.UnitedStates--' />
+  </assumption>
+ </assumptions>
+ <sources count='1'>
+  <source url='http://www.wolframalpha.com/sources/CityDataSourceInformationNotes.html'
+      text='City data' />
+ </sources>
+</queryresult>
