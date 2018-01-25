@@ -94,16 +94,16 @@ def b_day(request):
 def api_call(api_input):
 	call = API_LINK + api_input
 
-	'''
+	
 	# Commented to save queries
 	response = requests.get(call)
-	xml_tree = xmlParser.fromstring(response.content)
-	'''
+	tree = xmlParser.fromstring(response.content)
+	
 	# Sample file, for debbuging
-	tree = xmlParser.parse('app/static/database/query.xml')
-	root = tree.getroot()
+	#tree = xmlParser.parse('app/static/database/query.xml')
+	#root = tree.getroot()
 
-	diff_days = root.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
+	diff_days = tree.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
 	# Converting Sub Elements to Tezt
 	diff_days = [d.text for d in diff_days]
 
