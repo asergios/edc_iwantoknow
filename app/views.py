@@ -73,27 +73,27 @@ def b_day(request):
 			month = MONTHS[date.month - 1]
 
 			api_input = str(date.day) + '+' + month + '+' + str(date.year)
-			api_answer = api_call(api_input)
+			api_answer, success = api_call(api_input)
 
-			# Finding Pod with "DifferenceConversions" ID
-			diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
-			# Converting Sub Elements to Tezt
-			diff_days = [d.text for d in diff_days]
+			if ( success ):
+				# Finding Pod with "DifferenceConversions" ID
+				diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
+				# Converting Sub Elements to Tezt
+				diff_days = [d.text for d in diff_days]
 
-			return render(request,'bday.html', {'user_picked': user_pick, 
-												 'formAction': "b_day", 
-												 'form': validate,
-												 'entries': get_entries(),
-												 'results' : diff_days
-												 })
+				return render(request,'bday.html', {'user_picked': user_pick, 
+													 'formAction': "b_day", 
+													 'form': validate,
+													 'entries': get_entries(),
+													 'results' : diff_days
+													 })
 
-		# Form not valid / render index (later will error message)
-		else:
-			return render(request,'index.html', {'user_picked': user_pick, 
-												 'formAction': "b_day", 
-												 'form': validate,
-												 'entries': get_entries()
-												 })
+		# Form not valid / render index where error will be shown
+		return render(request,'index.html', {'user_picked': user_pick, 
+											 'formAction': "b_day", 
+											 'form': validate,
+											 'entries': get_entries()
+											 })
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
 		return redirect('index')
@@ -113,31 +113,31 @@ def time_in(request):
 		# If form is valid prepare API call
 		if( validate.is_valid() ):
 			api_input = "time in " + validate.cleaned_data['input_form']
-			api_answer = api_call(api_input)
+			api_answer, success = api_call(api_input)
 
-			# Getting hours in locatin and timeoffset from current location
-			hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
-			time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
+			if ( success ):
+				# Getting hours in locatin and timeoffset from current location
+				hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
+				time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
 
-			return render(request,'time_in.html', {'user_picked': user_pick, 
-												 'formAction': "time_in", 
-												 'form': validate,
-												 'entries': get_entries(),
-												 'hour' : hours_in_location,
-												 'offset': time_offset
-												 })
+				return render(request,'time_in.html', {'user_picked': user_pick, 
+													 'formAction': "time_in", 
+													 'form': validate,
+													 'entries': get_entries(),
+													 'hour' : hours_in_location,
+													 'offset': time_offset
+													 })
 
-		# Form not valid / render index (later will error message)
-		else:
-			return render(request,'index.html', {'user_picked': user_pick, 
-												 'formAction': "time_in", 
-												 'form': validate,
-												 'entries': get_entries()
-												 })
+		# Form not valid - render index (later will error message)
+		return render(request,'index.html', {'user_picked': user_pick, 
+											 'formAction': "time_in", 
+											 'form': validate,
+											 'entries': get_entries(),
+											 'error' : True
+											 })
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
 		return redirect('index')
-
 
 
 '''
@@ -149,13 +149,17 @@ def api_call(api_input):
 	debbuging = 1
 
 	if(debbuging):
-		tree = xmlParser.parse('app/static/database/time_in.xml')
+		tree = xmlParser.parse('app/static/database/failure_example.xml')
 		tree = tree.getroot()
+		success = tree.find('.[@success]').attrib['success']
 	else:
 		response = requests.get(call)
 		tree = xmlParser.fromstring(response.content)
+		success = tree.find('.[@success]').attrib['success']
+
+	success = False if success == 'false' else True
 	
-	return tree
+	return tree, success
 
 
 '''
