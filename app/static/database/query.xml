@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<queryresult success='true'
+    error='false'
+    numpods='8'
+    datatypes='City,HistoricalEvent'
+    timedout=''
+    timedoutpods=''
+    timing='2.597'
+    parsetiming='0.225'
+    parsetimedout='false'
+    recalculate=''
+    id='MSPa1227212a964cci37524e00005c9c2ei3c2dhhcb7'
+    host='http://www4b.wolframalpha.com'
+    server='34'
+    related='http://www4b.wolframalpha.com/api/v2/relatedQueries.jsp?id=MSPa1228212a964cci37524e000069f72febc100g549&amp;redisFailed=true&amp;s=34'
+    version='2.6'>
+ <pod title='Input interpretation'
+     scanner='Identity'
+     id='Input'
+     position='100'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1229212a964cci37524e00001g3h151ccdfb9df1?MSPStoreType=image/gif&amp;s=34'
+       alt='Wednesday, December 18, 1996'
+       title='Wednesday, December 18, 1996'
+       width='208'
+       height='18' />
+   <plaintext>Wednesday, December 18, 1996</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Date formats'
+     scanner='Date'
+     id='SingleDateFormats'
+     position='200'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1230212a964cci37524e000029h855gf5ice1hga?MSPStoreType=image/gif&amp;s=34'
+       alt='18/12/1996  (day/month/year)'
+       title='18/12/1996  (day/month/year)'
+       width='194'
+       height='18' />
+   <plaintext>18/12/1996  (day/month/year)</plaintext>
+  </subpod>
+  <states count='1'>
+   <state name='More formats/calendars'
+       input='SingleDateFormats__More formats/calendars' />
+  </states>
+ </pod>
+ <pod title='Time difference from today (Thursday, January 25, 2018)'
+     scanner='Date'
+     id='DifferenceConversions'
+     position='300'
+     error='false'
+     numsubpods='4'
+     primary='true'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1231212a964cci37524e00003c42g0172f9710e9?MSPStoreType=image/gif&amp;s=34'
+       alt='21 years 1 month 7 days ago'
+       title='21 years 1 month 7 days ago'
+       width='201'
+       height='18' />
+   <plaintext>21 years 1 month 7 days ago</plaintext>
+  </subpod>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1232212a964cci37524e00000g06e7bedh85eb3f?MSPStoreType=image/gif&amp;s=34'
+       alt='1101 weeks 1 day ago'
+       title='1101 weeks 1 day ago'
+       width='150'
+       height='18' />
+   <plaintext>1101 weeks 1 day ago</plaintext>
+  </subpod>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1233212a964cci37524e000053c60e5c6238d309?MSPStoreType=image/gif&amp;s=34'
+       alt='7708 days ago'
+       title='7708 days ago'
+       width='93'
+       height='18' />
+   <plaintext>7708 days ago</plaintext>
+  </subpod>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1234212a964cci37524e00005113h6c4c9h7b3i9?MSPStoreType=image/gif&amp;s=34'
+       alt='21.1 years ago'
+       title='21.1 years ago'
+       width='94'
+       height='18' />
+   <plaintext>21.1 years ago</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Time in 1996'
+     scanner='Date'
+     id='TimeInYear'
+     position='400'
+     error='false'
+     numsubpods='2'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1235212a964cci37524e00003ch1e76b8628dcf0?MSPStoreType=image/gif&amp;s=34'
+       alt='353rd day'
+       title='353rd day'
+       width='63'
+       height='18' />
+   <plaintext>353rd day</plaintext>
+  </subpod>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1236212a964cci37524e000052c7329b4d3f7h1g?MSPStoreType=image/gif&amp;s=34'
+       alt='51st week'
+       title='51st week'
+       width='63'
+       height='18' />
+   <plaintext>51st week</plaintext>
+  </subpod>
+  <states count='1'>
+   <state name='More'
+       input='TimeInYear__More' />
+  </states>
+ </pod>
+ <pod title='Observances for December 18, 1996 (Portugal)'
+     scanner='Date'
+     id='ObservanceDate (country)'
+     position='500'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1237212a964cci37524e000040he94ic1a8b1c4i?MSPStoreType=image/gif&amp;s=34'
+       alt='(no official holidays or major observances)'
+       title='(no official holidays or major observances)'
+       width='277'
+       height='18' />
+   <plaintext>(no official holidays or major observances)</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Anniversaries for December 18, 1996'
+     scanner='Date'
+     id='NotableEventForDate'
+     position='600'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1238212a964cci37524e00004f757cbacg74626a?MSPStoreType=image/gif&amp;s=34'
+       alt='birth of Steven Spielberg (1946- ): 50th anniversary
+birth of Steve Biko (1946-1977): 50th anniversary
+first performance of &quot;The Nutcracker&quot; (1892): 104th anniversary
+discovery of the Piltdown Man is announced (1912): 84th anniversary
+US celebrates first national Thanksgiving Day (1777): 219th anniversary'
+       title='birth of Steven Spielberg (1946- ): 50th anniversary
+birth of Steve Biko (1946-1977): 50th anniversary
+first performance of &quot;The Nutcracker&quot; (1892): 104th anniversary
+discovery of the Piltdown Man is announced (1912): 84th anniversary
+US celebrates first national Thanksgiving Day (1777): 219th anniversary'
+       width='469'
+       height='135' />
+   <plaintext>birth of Steven Spielberg (1946- ): 50th anniversary
+birth of Steve Biko (1946-1977): 50th anniversary
+first performance of &quot;The Nutcracker&quot; (1892): 104th anniversary
+discovery of the Piltdown Man is announced (1912): 84th anniversary
+US celebrates first national Thanksgiving Day (1777): 219th anniversary</plaintext>
+  </subpod>
+  <states count='1'>
+   <state name='More'
+       input='NotableEventForDate__More' />
+  </states>
+ </pod>
+ <pod title='Daylight information for December 18, 1996 in Vila Nova de Gaia, Portugal'
+     scanner='Date'
+     id='DaylightInformation'
+     position='700'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1239212a964cci37524e000014d9c49dafd6ehgf?MSPStoreType=image/gif&amp;s=34'
+       alt='sunrise | 7:54 am WET
+sunset | 5:07 pm WET
+duration of daylight | 9 hours 13 minutes'
+       title='sunrise | 7:54 am WET
+sunset | 5:07 pm WET
+duration of daylight | 9 hours 13 minutes'
+       width='310'
+       height='100' />
+   <plaintext>sunrise | 7:54 am WET
+sunset | 5:07 pm WET
+duration of daylight | 9 hours 13 minutes</plaintext>
+  </subpod>
+  <states count='1'>
+   <state name='More'
+       input='DaylightInformation__More' />
+  </states>
+ </pod>
+ <pod title='Phase of the Moon'
+     scanner='Date'
+     id='PhaseOfTheMoon'
+     position='800'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1240212a964cci37524e000057ec72d53i7f8h60?MSPStoreType=image/gif&amp;s=34'
+       alt='waxing gibbous moon'
+       title='waxing gibbous moon'
+       width='181'
+       height='32' />
+   <plaintext>waxing gibbous moon</plaintext>
+  </subpod>
+  <states count='1'>
+   <state name='Large image'
+       input='PhaseOfTheMoon__Large image' />
+  </states>
+ </pod>
+ <sources count='2'>
+  <source url='http://www.wolframalpha.com/sources/PeopleDataSourceInformationNotes.html'
+      text='People data' />
+  <source url='http://www.wolframalpha.com/sources/StarDataSourceInformationNotes.html'
+      text='Star data' />
+ </sources>
+</queryresult>

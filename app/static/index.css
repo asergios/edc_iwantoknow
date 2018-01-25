@@ -58,6 +58,10 @@ body {
 	font-size: 6vw;
 }
 
+.main-title-top {
+	margin-top: 5%;
+}
+
 /* END OF MAIN TITLE */
 
 /* DROPDOWN MENU */
@@ -113,6 +117,10 @@ body {
 
 /* DATE FORM */
 
+.errorlist{
+	display: none;
+}
+
 .date-input{
 	width: 25%;
     box-sizing: border-box;
@@ -129,3 +137,11 @@ body {
 }
 
 /* END OF DATE FORM */
+
+/* DBAY RESULTS */
+
+.bday-results{
+	text-align: center;
+}
+
+/* END OF DBAY RESULTS */
