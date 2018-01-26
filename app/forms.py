@@ -11,7 +11,7 @@ class DateForm(forms.Form):
         typed = self.cleaned_data.get('date', '')
 
         if date.today() <= typed:
-            raise ValidationError("I don't think you can be born tomorrow...")
+            raise ValidationError("Dates from today and after are not valid!")
 
         return self.cleaned_data.get('date', '')
 

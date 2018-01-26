@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+      	<meta charset="UTF-8">
+		<title>I WanTo Know</title>
+
+		<!-- Getting Google Font -->
+		<link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
+
+		<!-- Getting CSS file -->
+		<link rel="stylesheet" href="/static/index.css">
+
+		<!-- Getting Icon -->
+		<link rel="icon" href="/static/images/icon.png">
+	</head>
+
+	<body>
+		<!-- Navigation Bar -->
+		<div class="nav-bar">
+		  <a href="/" class="nav-item-left">Home</a>
+		  <a href="#" class="nav-item-right">About</a>
+		  <a href="#" class="nav-item-right">Report</a>
+		  <a href="#" class="nav-item-right">Git</a>
+		</div>
+
+		<div class="content">
+			<!-- Main Title -->
+			<h1 class="main-title-top">I WanTo Know</h1>
+
+			<!-- DropDown Menu -->
+			<div class="dropdown-menu">
+
+				<button class="dropdown-button">
+					<!-- Checking if user_picked parameter was given by render -->
+					{% if user_picked %}
+						{{ user_picked }}
+					{% else %}
+						I want to know...
+					{% endif %}
+				</button>
+
+				<div class="dropdown-items">
+					<form action="/" method="post">
+						{% csrf_token %}
+						{% for entry in entries %}
+							<input type="submit" name="pick" value="{{entry}}">
+						{% endfor %}
+					</form>
+				</div>
+			</div>
+
+			<div class="form-div">
+				<form action="{{formAction}}" method="post">
+					{% csrf_token %}
+					{{form}}
+				</form>
+			</div>
+			
+		</div>
+
+		<div class="bday-results">
+			<h1> People Born in this day: </h1>
+
+			{% for r in results %}
+				<h3> <a class="was_born" href='https://www.google.com/search?q={{r}}' > {{r}} </a> </h3>
+			{% endfor %}
+
+		</div>
+
+	</body>
+
+</html>

@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<queryresult success='true'
+    error='false'
+    numpods='11'
+    datatypes='City,Country,MLBPlayer,MLBPosition,MLBTeam,NFLPlayer,NFLTeam,People,USState,WikipediaStats'
+    timedout=''
+    timedoutpods=''
+    timing='9.442'
+    parsetiming='0.917'
+    parsetimedout='false'
+    recalculate=''
+    id='MSPa218216e5g6a4f8i1hii0000046d67bdf81432d57'
+    host='http://www4b.wolframalpha.com'
+    server='41'
+    related='http://www4b.wolframalpha.com/api/v2/relatedQueries.jsp?id=MSPa218316e5g6a4f8i1hii0000067a0h3chgf95h1ge7565264462549653373'
+    version='2.6'>
+ <pod title='Input interpretation'
+     scanner='Identity'
+     id='Input'
+     position='100'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP218416e5g6a4f8i1hii000003a8b98ech3a3gai8?MSPStoreType=image/gif&amp;s=41'
+       alt='notable people born on Tuesday, December 18, 1990'
+       title='notable people born on Tuesday, December 18, 1990'
+       width='345'
+       height='18' />
+   <plaintext>notable people born on Tuesday, December 18, 1990</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Members'
+     scanner='Data'
+     id='Result'
+     position='200'
+     error='false'
+     numsubpods='1'
+     primary='true'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP218516e5g6a4f8i1hii0000038gh7df9ca5ie2h9?MSPStoreType=image/gif&amp;s=41'
+       alt='Deontae Skinner  |  Hiroko Kuwata  |  Jarrod Pughsley  |  Micah Johnson  |  Shin-Ae Ahn  |  Sierra Kusterbeck   (total:  6)'
+       title='Deontae Skinner  |  Hiroko Kuwata  |  Jarrod Pughsley  |  Micah Johnson  |  Shin-Ae Ahn  |  Sierra Kusterbeck   (total:  6)'
+       width='514'
+       height='38' />
+   <plaintext>Deontae Skinner  |  Hiroko Kuwata  |  Jarrod Pughsley  |  Micah Johnson  |  Shin-Ae Ahn  |  Sierra Kusterbeck   (total:  6)</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Basic information'
+     scanner='Data'
+     id='BasicInformation:PeopleData'
+     position='300'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP218616e5g6a4f8i1hii000005bg59g29171hhh91?MSPStoreType=image/gif&amp;s=41'
+       alt=' | full name | date of birth | place of birth
+Deontae Skinner |  | 1990 (27 years ago) | Macon, Mississippi, United States
+Hiroko Kuwata | Hiroko Kuwata | 1990 (age: 27 years) | Japan
+Jarrod Pughsley |  | 1990 (27 years ago) | Lima, Ohio, United States
+Micah Johnson | Micah Johnson | 1990 (age: 27 years) | Indianapolis, Indiana, United States
+Shin-Ae Ahn |  | 1990 (age: 27 years) | '
+       title=' | full name | date of birth | place of birth
+Deontae Skinner |  | 1990 (27 years ago) | Macon, Mississippi, United States
+Hiroko Kuwata | Hiroko Kuwata | 1990 (age: 27 years) | Japan
+Jarrod Pughsley |  | 1990 (27 years ago) | Lima, Ohio, United States
+Micah Johnson | Micah Johnson | 1990 (age: 27 years) | Indianapolis, Indiana, United States
+Shin-Ae Ahn |  | 1990 (age: 27 years) | '
+       width='545'
+       height='315' />
+   <plaintext> | full name | date of birth | place of birth
+Deontae Skinner |  | 1990 (27 years ago) | Macon, Mississippi, United States
+Hiroko Kuwata | Hiroko Kuwata | 1990 (age: 27 years) | Japan
+Jarrod Pughsley |  | 1990 (27 years ago) | Lima, Ohio, United States
+Micah Johnson | Micah Johnson | 1990 (age: 27 years) | Indianapolis, Indiana, United States
+Shin-Ae Ahn |  | 1990 (age: 27 years) | </plaintext>
+  </subpod>
+  <states count='1'>
+   <state name='Show full dates'
+       input='BasicInformation:PeopleData__Show full dates' />
+  </states>
+ </pod>
+ <pod title='Images'
+     scanner='Data'
+     id='Image:PeopleData'
+     position='400'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP218716e5g6a4f8i1hii000003h38deb0c4e7fbb0?MSPStoreType=image/gif&amp;s=41'
+       alt=''
+       title=''
+       width='148'
+       height='201' />
+   <plaintext></plaintext>
+  </subpod>
+ </pod>
+ <pod title='Timeline'
+     scanner='Data'
+     id='Timeline:PeopleData'
+     position='500'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP218816e5g6a4f8i1hii00000583ai3792f6g5ibi?MSPStoreType=image/gif&amp;s=41'
+       alt=''
+       title=''
+       width='550'
+       height='128' />
+   <plaintext></plaintext>
+  </subpod>
+ </pod>
+ <pod title='NFL player information'
+     scanner='Data'
+     id='NFLPlayerAttributes:NFLPlayerData'
+     position='600'
+     error='false'
+     numsubpods='2'>
+  <subpod title='Deontae Skinner'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP218916e5g6a4f8i1hii000002dc105gf20i452h0?MSPStoreType=image/gif&amp;s=41'
+       alt='current team | New York Giants
+team history | New England Patriots  (2014)  |  New York Giants  (2016  to  2017)
+positions | linebacker  |  outside linebacker'
+       title='current team | New York Giants
+team history | New England Patriots  (2014)  |  New York Giants  (2016  to  2017)
+positions | linebacker  |  outside linebacker'
+       width='546'
+       height='117' />
+   <plaintext>current team | New York Giants
+team history | New England Patriots  (2014)  |  New York Giants  (2016  to  2017)
+positions | linebacker  |  outside linebacker</plaintext>
+  </subpod>
+  <subpod title='Jarrod Pughsley'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP219016e5g6a4f8i1hii0000030g1ada071id8e16?MSPStoreType=image/gif&amp;s=41'
+       alt='team history | Kansas City Chiefs  (2015)'
+       title='team history | Kansas City Chiefs  (2015)'
+       width='298'
+       height='36' />
+   <plaintext>team history | Kansas City Chiefs  (2015)</plaintext>
+  </subpod>
+ </pod>
+ <pod title='2017 overall stats'
+     scanner='Data'
+     id='NFLPlayerStats:NFLPlayerData'
+     position='700'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP219116e5g6a4f8i1hii0000057a5fg6ef2013ghi?MSPStoreType=image/gif&amp;s=41'
+       alt=' | Deontae Skinner
+games played | 3
+games started | 0
+passing touchdowns | 0
+touchdowns | 0
+points scored | 0
+passing yards | 0 yards
+rushing yards | 0 yards
+receiving yards | 0 yards'
+       title=' | Deontae Skinner
+games played | 3
+games started | 0
+passing touchdowns | 0
+touchdowns | 0
+points scored | 0
+passing yards | 0 yards
+rushing yards | 0 yards
+receiving yards | 0 yards'
+       width='291'
+       height='292' />
+   <plaintext> | Deontae Skinner
+games played | 3
+games started | 0
+passing touchdowns | 0
+touchdowns | 0
+points scored | 0
+passing yards | 0 yards
+rushing yards | 0 yards
+receiving yards | 0 yards</plaintext>
+  </subpod>
+  <states count='1'>
+   <statelist count='8'
+       value='Totals'
+       delimiters=''>
+    <state name='Totals'
+        input='NFLPlayerStats:NFLPlayerData__Totals' />
+    <state name='Defense'
+        input='NFLPlayerStats:NFLPlayerData__Defense' />
+    <state name='Passing'
+        input='NFLPlayerStats:NFLPlayerData__Passing' />
+    <state name='Rushing'
+        input='NFLPlayerStats:NFLPlayerData__Rushing' />
+    <state name='Receiving'
+        input='NFLPlayerStats:NFLPlayerData__Receiving' />
+    <state name='Returns'
+        input='NFLPlayerStats:NFLPlayerData__Returns' />
+    <state name='Kicking'
+        input='NFLPlayerStats:NFLPlayerData__Kicking' />
+    <state name='Punting'
+        input='NFLPlayerStats:NFLPlayerData__Punting' />
+   </statelist>
+  </states>
+  <definitions count='8'>
+   <definition word='games played'
+       desc='the number of games played by a team or player' />
+   <definition word='games started'
+       desc='the number of games started by a player' />
+   <definition word='passing touchdowns'
+       desc='the number of touchdowns scored via passes initiated by an offense or offensive player' />
+   <definition word='touchdowns'
+       desc='the total number of touchdowns scored by a team or player' />
+   <definition word='points scored'
+       desc='the number of points scored by a team or player' />
+   <definition word='passing yards'
+       desc='the number of yards gained via passes initiated by an offense or offensive player' />
+   <definition word='rushing yards'
+       desc='the number of yards gained by an offense or player via a rushing play' />
+   <definition word='receiving yards'
+       desc='the number of yards gained via receptions by an offense or player' />
+  </definitions>
+ </pod>
+ <pod title='MLB player information'
+     scanner='Data'
+     id='MLBPlayerAttributes:MLBPlayerData'
+     position='800'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP219216e5g6a4f8i1hii000000g3b0f861c19039d?MSPStoreType=image/gif&amp;s=41'
+       alt=' | Micah Johnson
+current team | Tampa Bay Rays
+team history | Chicago White Sox  (2015)  |  Los Angeles Dodgers  (2016)  |  Atlanta Braves  (2017)
+positions | second base  (36 games)  |  pinch hitter  (15 games)  |  pinch runner  (11 games)  |  left field  (4 games)'
+       title=' | Micah Johnson
+current team | Tampa Bay Rays
+team history | Chicago White Sox  (2015)  |  Los Angeles Dodgers  (2016)  |  Atlanta Braves  (2017)
+positions | second base  (36 games)  |  pinch hitter  (15 games)  |  pinch runner  (11 games)  |  left field  (4 games)'
+       width='546'
+       height='166' />
+   <plaintext> | Micah Johnson
+current team | Tampa Bay Rays
+team history | Chicago White Sox  (2015)  |  Los Angeles Dodgers  (2016)  |  Atlanta Braves  (2017)
+positions | second base  (36 games)  |  pinch hitter  (15 games)  |  pinch runner  (11 games)  |  left field  (4 games)</plaintext>
+  </subpod>
+ </pod>
+ <pod title='2017 game stats'
+     scanner='Data'
+     id='MLBPlayerStats:MLBPlayerData'
+     position='900'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP219316e5g6a4f8i1hii0000067ei8fh5afcabgi3?MSPStoreType=image/gif&amp;s=41'
+       alt=' | M. Johnson
+games played | 3
+games started | 1
+positions played | pinch runner  (8 games)  |  pinch hitter  (8 games)  |  left field  (3 games)
+positions started | left field  (1 game)'
+       title=' | M. Johnson
+games played | 3
+games started | 1
+positions played | pinch runner  (8 games)  |  pinch hitter  (8 games)  |  left field  (3 games)
+positions started | left field  (1 game)'
+       width='546'
+       height='181' />
+   <plaintext> | M. Johnson
+games played | 3
+games started | 1
+positions played | pinch runner  (8 games)  |  pinch hitter  (8 games)  |  left field  (3 games)
+positions started | left field  (1 game)</plaintext>
+  </subpod>
+  <states count='1'>
+   <statelist count='5'
+       value='Totals'
+       delimiters=''>
+    <state name='Totals'
+        input='MLBPlayerStats:MLBPlayerData__Totals' />
+    <state name='Hitting'
+        input='MLBPlayerStats:MLBPlayerData__Hitting' />
+    <state name='Pitching'
+        input='MLBPlayerStats:MLBPlayerData__Pitching' />
+    <state name='Baserunning'
+        input='MLBPlayerStats:MLBPlayerData__Baserunning' />
+    <state name='Defense'
+        input='MLBPlayerStats:MLBPlayerData__Defense' />
+   </statelist>
+  </states>
+  <definitions count='2'>
+   <definition word='games played'
+       desc='number of games in which a team or player appears' />
+   <definition word='games started'
+       desc='number of games started by a player' />
+  </definitions>
+ </pod>
+ <pod title='Familial relationships'
+     scanner='Data'
+     id='FamilialRelationships:PeopleData'
+     position='1000'
+     error='false'
+     numsubpods='1'>
+  <subpod title='Parent'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP219416e5g6a4f8i1hii000002043i98f9i85fi20?MSPStoreType=image/gif&amp;s=41'
+       alt='Jarrod Pughsley | Jennifer Pughsley'
+       title='Jarrod Pughsley | Jennifer Pughsley'
+       width='269'
+       height='36' />
+   <plaintext>Jarrod Pughsley | Jennifer Pughsley</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Wikipedia page hits history'
+     scanner='Data'
+     id='PopularityPod:WikipediaStatsData'
+     position='1100'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP219516e5g6a4f8i1hii000002a78d6gg6b3baf71?MSPStoreType=image/gif&amp;s=41'
+       alt=''
+       title=''
+       width='546'
+       height='210' />
+   <plaintext></plaintext>
+  </subpod>
+  <states count='1'>
+   <state name='Linear scale'
+       input='PopularityPod:WikipediaStatsData__Linear scale' />
+  </states>
+ </pod>
+ <assumptions count='1'>
+  <assumption type='Clash'
+      word='people'
+      template='Assuming &quot;${word}&quot; is ${desc1}. Use as ${desc2} instead'
+      count='2'>
+   <value name='PeopleClassWord'
+       desc='famous people'
+       input='*C.people-_*PeopleClassWord-' />
+   <value name='DataType'
+       desc='people'
+       input='*C.people-_*DataType-' />
+  </assumption>
+ </assumptions>
+ <sources count='5'>
+  <source url='http://www.wolframalpha.com/sources/MLBPlayerDataSourceInformationNotes.html'
+      text='MLB player data' />
+  <source url='http://www.wolframalpha.com/sources/MLBTeamDataSourceInformationNotes.html'
+      text='MLB team data' />
+  <source url='http://www.wolframalpha.com/sources/NFLPlayerDataSourceInformationNotes.html'
+      text='NFL player data' />
+  <source url='http://www.wolframalpha.com/sources/NFLTeamDataSourceInformationNotes.html'
+      text='NFL team data' />
+  <source url='http://www.wolframalpha.com/sources/PeopleDataSourceInformationNotes.html'
+      text='People data' />
+ </sources>
+</queryresult>

@@ -11,6 +11,7 @@
     <action>time_in</action>
     <user_inputs>
       <user_input times="2"> Moscow </user_input>
+      <user_input times="1">Spain</user_input>
     </user_inputs>
   </entrie>
 </root>

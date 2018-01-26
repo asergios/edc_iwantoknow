@@ -225,3 +225,13 @@ body {
 }
 
 /* END OF ATOM FEED */
+
+.was_born{
+	color: black; 
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.was_born:hover {
+	font-weight: bold;
+}
