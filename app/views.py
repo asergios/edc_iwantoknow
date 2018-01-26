@@ -3,15 +3,19 @@ from django.http import HttpResponse
 from django.views import View
 
 import xml.etree.ElementTree as xmlParser
+import lxml.etree as xlsTransformer
 import requests
 import app.static.database.BaseXClient.BaseXClient as BaseXClient
 from .forms import *
+import time
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
 API_KEY 	= 'JX8868-T9QE9WHQTJ'
 API_LINK 	= 'http://api.wolframalpha.com/v2/query?appid=' + API_KEY + '&input='
 # Months array, used to translate number of month to string
 MONTHS 		= ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+# Reddits ATOM link
+ATOM_FEED   = 'https://www.reddit.com/r/wolframalpha.xml?limit=20'
 
 
 '''
@@ -24,7 +28,8 @@ class index(View):
 	def get(self, request, *args, **kwargs):
 		return render(request,'index.html', { 'formAction': '' , 
 											  'form': '',
-											  'entries': get_entries()
+											  'entries': get_entries(),
+											  'feed' : get_feed()
 											})
 
 	# Response for a POST request, returns index page, now with the form for the user to fill
@@ -32,11 +37,11 @@ class index(View):
 		if "pick" in request.POST:
 			user_pick = request.POST.get("pick")
 			action, form = self.translate_user_pick(user_pick)
-			#form.initial = {'input_form': 'test'}
 			return render(request,'index.html', {'user_picked': user_pick, 
 												 'formAction': action, 
 												 'form': form,
-												 'entries': get_entries()
+												 'entries': get_entries(),
+												 'feed' : get_feed()
 												 })
 		else:
 			# TODO: this works?
@@ -46,11 +51,10 @@ class index(View):
 	def translate_user_pick(self, user_pick):
 		# Getting form actiong from DataBase
 		form_action = get_form_action(user_pick)
-
 		if (form_action == "b_day"):
-			return (form_action, DateForm())
+			return (form_action, DateForm(initial= {'date': get_most_common(form_action)} ) )
 		else:
-			return (form_action, InputForm())
+			return (form_action, InputForm(initial= {'input_form': get_most_common(form_action)} ) )
 
 
 '''
@@ -75,6 +79,8 @@ def b_day(request):
 			api_answer, success = api_call(api_input)
 
 			if ( success ):
+				# Storing user input on DB
+				store_user_input("b_day", date)
 				# Finding Pod with "DifferenceConversions" ID
 				diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
 				# Converting Sub Elements to Tezt
@@ -92,7 +98,8 @@ def b_day(request):
 											 'formAction': "b_day", 
 											 'form': validate,
 											 'entries': get_entries(),
-											 'error' : True
+											 'error' : True,
+											 'feed' : get_feed()
 											 })
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
@@ -116,6 +123,8 @@ def time_in(request):
 			api_answer, success = api_call(api_input)
 
 			if ( success ):
+				# Storing user input on DB
+				store_user_input("time_in", validate.cleaned_data['input_form'])
 				# Getting hours in locatin and timeoffset from current location
 				hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 				time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
@@ -133,7 +142,8 @@ def time_in(request):
 											 'formAction': "time_in", 
 											 'form': validate,
 											 'entries': get_entries(),
-											 'error' : True
+											 'error' : True,
+											 'feed' : get_feed()
 											 })
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
@@ -243,6 +253,69 @@ def get_user_pick(form_action):
 
 	return title[0]
 
+def store_user_input(action, user_input):
+	session = get_db_session()
+
+	# Location of user_inputs for this action
+	location = "collection(\"entries\")//entrie/action[text()=\""+ action +"\"]/../user_inputs"
+	# Condition to check if input already exists
+	exists = "(exists(" + location + "/user_input[text()=\""+ user_input +"\"]))"
+	# If already exists it will increments his 'times' value, else will create a new user_input
+	query = " if " + exists + " then " \
+			"(replace value of node (" + location + "/user_input[text()=\""+ user_input +"\"]/@times) with (" + location + "/user_input[text()=\""+ user_input +"\"]/data(@times)) + 1) else " \
+			"(insert node (<user_input times=\"1\">" + user_input + "</user_input>) into  " + location + " )"
+	
+	result = session.query(query)
+	
+	if session:
+		session.close()
+
+def get_most_common(action):
+	session = get_db_session()
+
+	# Location of user_inputs of this action
+	inputs = "collection('entries')//entrie/action[text()=\""+ action +"\"]/../user_inputs/user_input"
+	# Ordering by times descending and returning first
+	query =  "(for $i in " + inputs + \
+			 " order by $i/data(@times) descending " \
+			 "return $i/text())[1]"
+
+	result = session.query(query)
+	common = [common for code, common in result.iter()]
+
+	if session:
+		session.close()
+
+	return common[0]
+
+'''
+	Reddit's ATOM feed
+
+	'''	
+
+def get_feed():
+	# Request Feed
+	response = requests.get(ATOM_FEED)
+
+	# If answer was 200, it saves the file and returns the transformed feed
+	if(response.status_code == 200):
+		with open('app/static/feed_reddit/last_feed.xml', mode='wb') as newfile:
+			newfile.write(response.content)
+			newfile.close()
+		return transform_feed( xlsTransformer.fromstring(response.content) )
+
+	# Reddit answer with 429 when it is feeling spammed, in that case return the last feed saved
+	elif(response.status_code == 429):
+		return transform_feed( xlsTransformer.parse('app/static/feed_reddit/last_feed.xml') )
+
+	return False
+
+def transform_feed(feed):
+	# Using feed_transform.xsl to feed, turns it to a HTML list
+	xsl = xlsTransformer.parse('app/static/feed_reddit/feed_transform.xsl')
+	transform = xlsTransformer.XSLT(xsl)
+	html_content = transform(feed)
+	return html_content
 
 
 

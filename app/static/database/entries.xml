@@ -1,13 +1,16 @@
 <root>
-
-<entrie>
-  <title>How much time has passed since my birthday</title>
-  <action>b_day</action>
-</entrie>
-
-<entrie>
-  <title>What time is it in</title>
-  <action>time_in</action>
-</entrie>
-
+  <entrie>
+    <title>How much time has passed since my birthday</title>
+    <action>b_day</action>
+    <user_inputs>
+      <user_input times="1"> 2000-12-01 </user_input>
+    </user_inputs>
+  </entrie>
+  <entrie>
+    <title>What time is it in</title>
+    <action>time_in</action>
+    <user_inputs>
+      <user_input times="2"> Moscow </user_input>
+    </user_inputs>
+  </entrie>
 </root>
