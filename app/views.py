@@ -32,6 +32,7 @@ class index(View):
 		if "pick" in request.POST:
 			user_pick = request.POST.get("pick")
 			action, form = self.translate_user_pick(user_pick)
+			#form.initial = {'input_form': 'test'}
 			return render(request,'index.html', {'user_picked': user_pick, 
 												 'formAction': action, 
 												 'form': form,
@@ -90,7 +91,8 @@ def b_day(request):
 		return render(request,'index.html', {'user_picked': user_pick, 
 											 'formAction': "b_day", 
 											 'form': validate,
-											 'entries': get_entries()
+											 'entries': get_entries(),
+											 'error' : True
 											 })
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
@@ -153,6 +155,7 @@ def about(request):
 def api_call(api_input):
 	call = API_LINK + api_input
 	debbuging = 1
+
 
 	if(debbuging):
 		tree = xmlParser.parse('app/static/database/failure_example.xml')
