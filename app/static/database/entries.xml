@@ -4,7 +4,8 @@
     <action>b_day</action>
     <user_inputs>
       <user_input times="1"> 2000-12-01 </user_input>
-      <user_input times="8">01-12-2000</user_input>
+      <user_input times="64">01-12-2000</user_input>
+      <user_input times="1">01-01-2018</user_input>
     </user_inputs>
   </entrie>
   <entrie>
@@ -12,8 +13,9 @@
     <action>time_in</action>
     <user_inputs>
       <user_input times="2"> Moscow </user_input>
-      <user_input times="5">Spain</user_input>
+      <user_input times="10">Spain</user_input>
       <user_input times="1">Russia</user_input>
+      <user_input times="4">Moscow</user_input>
     </user_inputs>
   </entrie>
   <entrie>
@@ -21,7 +23,7 @@
     <action>was_born</action>
     <user_inputs>
       <user_input>1996-12-18</user_input>
-      <user_input times="4">18-12-1996</user_input>
+      <user_input times="6">18-12-1996</user_input>
       <user_input times="33">18-12-1990</user_input>
       <user_input times="2">03-10-1998</user_input>
     </user_inputs>
@@ -29,8 +31,18 @@
   <entrie>
     <title>How many calories are on</title>
     <user_inputs>
-      <user_input times="1">Apple</user_input>
+      <user_input times="4">Apple</user_input>
+      <user_input times="1">Chocolate</user_input>
+      <user_input times="1">Potato</user_input>
     </user_inputs>
     <action>calories_on</action>
+  </entrie>
+  <entrie>
+    <title>How's the weather in</title>
+    <action>weather</action>
+    <user_inputs>
+      <user_input times="4">Moscow</user_input>
+      <user_input times="1">Tokyo</user_input>
+    </user_inputs>
   </entrie>
 </root>

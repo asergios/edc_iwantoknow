@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.views import View
 
 import xml.etree.ElementTree as xmlParser
@@ -10,7 +10,7 @@ from .forms import *
 import time
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
-USE_API 	=  True # Set to False when debbuging, in order to don't spend queries
+USE_API 	=  False # Set to False when debbuging, in order to don't spend queries
 API_KEY 	= 'JX8868-T9QE9WHQTJ'
 API_LINK 	= 'http://api.wolframalpha.com/v2/query?appid=' + API_KEY + '&input='
 # Months array, used to translate number of month to string
@@ -275,6 +275,15 @@ def about(request):
 
 
 '''
+	Report Page
+
+	'''
+def report(request):
+	return FileResponse(open('app/static/EDC_report_tp1.pdf', 'rb'), content_type='application/pdf')
+
+
+
+'''
 	API CALL Wolframalpha
 
 	'''
@@ -282,7 +291,7 @@ def api_call(api_input, parser):
 	call = API_LINK + api_input
 	try:
 		if(not USE_API):
-			tree = xmlParser.parse('app/static/debug_samples/weather.xml',parser)
+			tree = xmlParser.parse('app/static/debug_samples/query_sample.xml',parser)
 			tree = tree.getroot()
 		else:
 			response = requests.get(call)
@@ -311,7 +320,7 @@ def get_schema_parser(action):
 # return db session
 def get_db_session():
 	try:
-		return BaseXClient.Session('localhost', 1984, 'admin', 'admin')
+		return BaseXClient.Session('127.0.0.1', 1984, 'admin', 'admin')
 	except Exception as e:
 		print( e )
 		print('I was unable to connect to DataBase. Is BaseXServer running? You should have a DataBase called "entries".')
@@ -379,7 +388,7 @@ def get_user_pick(form_action):
 
 		session.close()
 	else:
-		"db_error"
+		return "db_error"
 
 	return title[0]
 

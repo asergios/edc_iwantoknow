@@ -11,6 +11,7 @@ urlpatterns = [
 	url(r'^was_born$', was_born, name="was_born"),
 	url(r'^calories_on$', calories_on, name="calories_on"),
 	url(r'^weather$', weather, name="weather"),
+	url(r'^report$', report, name="report"),
 	url(r'^about$', about, name="about"),
     url(r'^admin/', admin.site.urls),
 ]
