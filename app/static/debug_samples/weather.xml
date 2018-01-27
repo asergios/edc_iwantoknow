@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<queryresult success='true'
+    error='false'
+    numpods='7'
+    datatypes='Weather'
+    timedout=''
+    timedoutpods=''
+    timing='6.549'
+    parsetiming='0.47500000000000003'
+    parsetimedout='false'
+    recalculate=''
+    id='MSPa1974212ag2dib62b82g1000060fhdeh43332a282'
+    host='http://www4b.wolframalpha.com'
+    server='34'
+    related='http://www4b.wolframalpha.com/api/v2/relatedQueries.jsp?id=MSPa1975212ag2dib62b82g100005bdb1c0a07bbhg566571155540429298421'
+    version='2.6'>
+ <pod title='Input interpretation'
+     scanner='Identity'
+     id='Input'
+     position='100'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1976212ag2dib62b82g100005ig9e4a5ehaa5b92?MSPStoreType=image/gif&amp;s=34'
+       alt='weather | Tokyo'
+       title='weather | Tokyo'
+       width='151'
+       height='32' />
+   <plaintext>weather | Tokyo</plaintext>
+  </subpod>
+ </pod>
+ <pod title='Latest recorded weather for Tokyo'
+     scanner='Data'
+     id='InstantaneousWeather:WeatherData'
+     position='200'
+     error='false'
+     numsubpods='1'
+     primary='true'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1977212ag2dib62b82g100002icbff70019d25g7?MSPStoreType=image/gif&amp;s=34'
+       alt='temperature | -1 °C  (wind chill: -6 °C)
+conditions | few clouds
+relative humidity | 36%  (dew point: -14 °C)
+wind speed | 4.1 m/s
+(3 hours 7 minutes ago)'
+       title='temperature | -1 °C  (wind chill: -6 °C)
+conditions | few clouds
+relative humidity | 36%  (dew point: -14 °C)
+wind speed | 4.1 m/s
+(3 hours 7 minutes ago)'
+       width='319'
+       height='153' />
+   <plaintext>temperature | -1 °C  (wind chill: -6 °C)
+conditions | few clouds
+relative humidity | 36%  (dew point: -14 °C)
+wind speed | 4.1 m/s
+(3 hours 7 minutes ago)</plaintext>
+  </subpod>
+  <states count='2'>
+   <state name='Show non‐metric'
+       input='InstantaneousWeather:WeatherData__Show non‐metric' />
+   <state name='More'
+       input='InstantaneousWeather:WeatherData__More' />
+  </states>
+  <infos count='1'>
+   <info>
+    <units count='1'>
+     <unit short='m/s'
+         long='meters per second' />
+     <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1978212ag2dib62b82g100005if1ifa8hbg8fa98?MSPStoreType=image/gif&amp;s=34'
+         width='171'
+         height='26' />
+    </units>
+   </info>
+  </infos>
+ </pod>
+ <pod title='Weather forecast for Tokyo'
+     scanner='Data'
+     id='WeatherForecast:WeatherData'
+     position='300'
+     error='false'
+     numsubpods='2'
+     primary='true'>
+  <subpod title='Today'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1979212ag2dib62b82g1000060ge7eb64698d416?MSPStoreType=image/gif&amp;s=34'
+       alt='between 1 °C and 5 °C
+clear (all day)'
+       title='between 1 °C and 5 °C
+clear (all day)'
+       width='178'
+       height='60' />
+   <plaintext>between 1 °C and 5 °C
+clear (all day)</plaintext>
+  </subpod>
+  <subpod title='Tonight'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1980212ag2dib62b82g100003420a09b25aggd06?MSPStoreType=image/gif&amp;s=34'
+       alt='between 1 °C and 4 °C
+clear (all night)'
+       title='between 1 °C and 4 °C
+clear (all night)'
+       width='178'
+       height='60' />
+   <plaintext>between 1 °C and 4 °C
+clear (all night)</plaintext>
+  </subpod>
+  <states count='3'>
+   <state name='Show non‐metric'
+       input='WeatherForecast:WeatherData__Show non‐metric' />
+   <state name='More days'
+       input='WeatherForecast:WeatherData__More days' />
+   <state name='More details'
+       input='WeatherForecast:WeatherData__More details' />
+  </states>
+ </pod>
+ <pod title='Weather history &amp; forecast'
+     scanner='Data'
+     id='WeatherCharts:WeatherData'
+     position='400'
+     error='false'
+     numsubpods='4'>
+  <subpod title='Temperature'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1981212ag2dib62b82g100006a9f73adbibahh63?MSPStoreType=image/gif&amp;s=34'
+       alt='
+  |  |   |  
+low: -2 °C
+Fri, Jan 26, 4:30am, ... | average high:  | 6 °C
+average low:  | 0 °C | high: 9 °C
+Sun, Jan 28, 6:00pm
+ |   |  '
+       title='
+  |  |   |  
+low: -2 °C
+Fri, Jan 26, 4:30am, ... | average high:  | 6 °C
+average low:  | 0 °C | high: 9 °C
+Sun, Jan 28, 6:00pm
+ |   |  '
+       width='519'
+       height='184' />
+   <plaintext>
+  |  |   |  
+low: -2 °C
+Fri, Jan 26, 4:30am, ... | average high:  | 6 °C
+average low:  | 0 °C | high: 9 °C
+Sun, Jan 28, 6:00pm
+ |   |  </plaintext>
+  </subpod>
+  <subpod title='Cloud cover'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1982212ag2dib62b82g1000013gh88897529622d?MSPStoreType=image/gif&amp;s=34'
+       alt='
+ | clear: 72.6% (2.8 days)   |  overcast: 0% (0 minutes) '
+       title='
+ | clear: 72.6% (2.8 days)   |  overcast: 0% (0 minutes) '
+       width='519'
+       height='118' />
+   <plaintext>
+ | clear: 72.6% (2.8 days)   |  overcast: 0% (0 minutes) </plaintext>
+  </subpod>
+  <subpod title='Conditions'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1983212ag2dib62b82g10000492ggcd0iiedeb99?MSPStoreType=image/gif&amp;s=34'
+       alt='(no precipitation or fog)'
+       title='(no precipitation or fog)'
+       width='157'
+       height='18' />
+   <plaintext>(no precipitation or fog)</plaintext>
+  </subpod>
+  <subpod title='Precipitation rate'>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1984212ag2dib62b82g10000464a1472892g947i?MSPStoreType=image/gif&amp;s=34'
+       alt='(none)'
+       title='(none)'
+       width='62'
+       height='18' />
+   <plaintext>(none)</plaintext>
+  </subpod>
+  <states count='3'>
+   <statelist count='9'
+       value='Current week'
+       delimiters=''>
+    <state name='Current week'
+        input='WeatherCharts:WeatherData__Current week' />
+    <state name='Current day'
+        input='WeatherCharts:WeatherData__Current day' />
+    <state name='Next week'
+        input='WeatherCharts:WeatherData__Next week' />
+    <state name='Past week'
+        input='WeatherCharts:WeatherData__Past week' />
+    <state name='Past month'
+        input='WeatherCharts:WeatherData__Past month' />
+    <state name='Past year'
+        input='WeatherCharts:WeatherData__Past year' />
+    <state name='Past 5 years'
+        input='WeatherCharts:WeatherData__Past 5 years' />
+    <state name='Past 10 years'
+        input='WeatherCharts:WeatherData__Past 10 years' />
+    <state name='All'
+        input='WeatherCharts:WeatherData__All' />
+   </statelist>
+   <state name='Show non‐metric'
+       input='WeatherCharts:WeatherData__Show non‐metric' />
+   <state name='More'
+       input='WeatherCharts:WeatherData__More' />
+  </states>
+ </pod>
+ <pod title='Historical temperatures for January 27'
+     scanner='Data'
+     id='HistoricalTemperature:WeatherData'
+     position='500'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1985212ag2dib62b82g1000017bhi0ia22b48ed1?MSPStoreType=image/gif&amp;s=34'
+       alt='
+low: -6 °C
+1954 | average high:  | 10 °C
+average low:  | 1 °C | high: 22 °C
+1969
+(daily ranges, not corrected for changes in local weather station environment)'
+       title='
+low: -6 °C
+1954 | average high:  | 10 °C
+average low:  | 1 °C | high: 22 °C
+1969
+(daily ranges, not corrected for changes in local weather station environment)'
+       width='519'
+       height='155' />
+   <plaintext>
+low: -6 °C
+1954 | average high:  | 10 °C
+average low:  | 1 °C | high: 22 °C
+1969
+(daily ranges, not corrected for changes in local weather station environment)</plaintext>
+  </subpod>
+  <states count='2'>
+   <state name='Show table'
+       input='HistoricalTemperature:WeatherData__Show table' />
+   <state name='Show non‐metric'
+       input='HistoricalTemperature:WeatherData__Show non‐metric' />
+  </states>
+ </pod>
+ <pod title='Weather station information'
+     scanner='Data'
+     id='WeatherStationInformation:WeatherData'
+     position='600'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1986212ag2dib62b82g100001ha74f7gf7035c9c?MSPStoreType=image/gif&amp;s=34'
+       alt='name | RJTT  (Tokyo International Airport)
+relative position | 13 km S  (from center of Tokyo)
+relative elevation | (comparable to center of Tokyo)
+local time | 10:06:42 am JST  |  Saturday, January 27, 2018
+local sunlight | sun is above the horizon
+azimuth: 150°  (SSE)  |  altitude: 30°  ()'
+       title='name | RJTT  (Tokyo International Airport)
+relative position | 13 km S  (from center of Tokyo)
+relative elevation | (comparable to center of Tokyo)
+local time | 10:06:42 am JST  |  Saturday, January 27, 2018
+local sunlight | sun is above the horizon
+azimuth: 150°  (SSE)  |  altitude: 30°  ()'
+       width='478'
+       height='187' />
+   <plaintext>name | RJTT  (Tokyo International Airport)
+relative position | 13 km S  (from center of Tokyo)
+relative elevation | (comparable to center of Tokyo)
+local time | 10:06:42 am JST  |  Saturday, January 27, 2018
+local sunlight | sun is above the horizon
+azimuth: 150°  (SSE)  |  altitude: 30°  ()</plaintext>
+  </subpod>
+  <states count='2'>
+   <state name='Show non‐metric'
+       input='WeatherStationInformation:WeatherData__Show non‐metric' />
+   <state name='More'
+       input='WeatherStationInformation:WeatherData__More' />
+  </states>
+  <infos count='2'>
+   <info>
+    <units count='1'>
+     <unit short='km'
+         long='kilometers' />
+     <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1987212ag2dib62b82g10000280130eaia8a6d69?MSPStoreType=image/gif&amp;s=34'
+         width='120'
+         height='26' />
+    </units>
+   </info>
+   <info>
+    <link url='http://maps.google.com?ie=UTF8&amp;z=12&amp;t=k&amp;ll=35.552%2C139.78&amp;q=35.552%20N%2C%20139.78%20E'
+        text='Satellite image' />
+   </info>
+  </infos>
+ </pod>
+ <pod title='Weather station comparisons'
+     scanner='Data'
+     id='LocalTemperature:WeatherData'
+     position='700'
+     error='false'
+     numsubpods='1'>
+  <subpod title=''>
+   <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1988212ag2dib62b82g100004aeadc706ed889a1?MSPStoreType=image/gif&amp;s=34'
+       alt=' | position | elevation | current temperature
+RJTT | 13 km S | 8 m | -1 °C  (3.1 hours ago)
+RJTD | 1 km N | 36 m | -1 °C  (7.1 hours ago)
+RJTI | 8 km ESE | 8 m | -1 °C  (3.1 hours ago)
+(sorted by distance and inferred reliability)'
+       title=' | position | elevation | current temperature
+RJTT | 13 km S | 8 m | -1 °C  (3.1 hours ago)
+RJTD | 1 km N | 36 m | -1 °C  (7.1 hours ago)
+RJTI | 8 km ESE | 8 m | -1 °C  (3.1 hours ago)
+(sorted by distance and inferred reliability)'
+       width='383'
+       height='153' />
+   <plaintext> | position | elevation | current temperature
+RJTT | 13 km S | 8 m | -1 °C  (3.1 hours ago)
+RJTD | 1 km N | 36 m | -1 °C  (7.1 hours ago)
+RJTI | 8 km ESE | 8 m | -1 °C  (3.1 hours ago)
+(sorted by distance and inferred reliability)</plaintext>
+  </subpod>
+  <states count='2'>
+   <state name='Show non‐metric'
+       input='LocalTemperature:WeatherData__Show non‐metric' />
+   <state name='More'
+       input='LocalTemperature:WeatherData__More' />
+  </states>
+  <infos count='1'>
+   <info>
+    <units count='2'>
+     <unit short='km'
+         long='kilometers' />
+     <unit short='m'
+         long='meters' />
+     <img src='http://www4b.wolframalpha.com/Calculate/MSP/MSP1989212ag2dib62b82g100006729da37he88ch45?MSPStoreType=image/gif&amp;s=34'
+         width='120'
+         height='47' />
+    </units>
+   </info>
+  </infos>
+ </pod>
+ <sources count='5'>
+  <source url='http://www.wolframalpha.com/sources/AirportDataSourceInformationNotes.html'
+      text='Airport data' />
+  <source url='http://www.wolframalpha.com/sources/CityDataSourceInformationNotes.html'
+      text='City data' />
+  <source url='http://www.wolframalpha.com/sources/StarDataSourceInformationNotes.html'
+      text='Star data' />
+  <source url='http://www.wolframalpha.com/sources/WeatherDataSourceInformationNotes.html'
+      text='Weather data' />
+  <source url='http://www.wolframalpha.com/sources/WeatherForecastDataSourceInformationNotes.html'
+      text='Weather forecast data' />
+ </sources>
+</queryresult>

@@ -1,4 +1,4 @@
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="queryresult">
     <xs:complexType>
       <xs:sequence>
@@ -6,7 +6,7 @@
         <xs:element name="pod" maxOccurs="unbounded" minOccurs="2">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="subpod">
+              <xs:element name="subpod" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="img">
@@ -25,7 +25,23 @@
                     <xs:element type="xs:string" name="plaintext"/>
                   </xs:sequence>
                   <xs:attribute type="xs:string" name="title" use="optional"/>
-                  <xs:attribute type="xs:string" name="primary" use="optional"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="states" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="state">
+                      <xs:complexType>
+                        <xs:simpleContent>
+                          <xs:extension base="xs:string">
+                            <xs:attribute type="xs:string" name="name" use="optional"/>
+                            <xs:attribute type="xs:string" name="input" use="optional"/>
+                          </xs:extension>
+                        </xs:simpleContent>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute type="xs:byte" name="count" use="optional"/>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
@@ -42,6 +58,7 @@
         <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
 
       </xs:sequence>
+
       <xs:attribute type="xs:string" name="success" fixed="true"/>
       <xs:attribute type="xs:string" name="error"/>
       <xs:attribute type="xs:byte" name="numpods"/>
@@ -59,5 +76,4 @@
       <xs:attribute type="xs:float" name="version"/>
     </xs:complexType>
   </xs:element>
-
 </xs:schema>

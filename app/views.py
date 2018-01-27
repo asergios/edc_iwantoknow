@@ -10,7 +10,7 @@ from .forms import *
 import time
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
-USE_API 	=  False # Set to False when debbuging, in order to don't spend queries
+USE_API 	=  True # Set to False when debbuging, in order to don't spend queries
 API_KEY 	= 'JX8868-T9QE9WHQTJ'
 API_LINK 	= 'http://api.wolframalpha.com/v2/query?appid=' + API_KEY + '&input='
 # Months array, used to translate number of month to string
@@ -82,26 +82,19 @@ def b_day(request):
 			if ( success ):
 				# Storing user input on DB
 				store_user_input("b_day", date.strftime("%d-%m-%Y"))
-				# Finding Pod with "DifferenceConversions" ID
-				diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
-				# Converting Sub Elements to Tezt
-				diff_days = [d.text for d in diff_days]
-
-				return render(request,'bday.html', {'user_picked': user_pick, 
+				# Transforming XML into HTML
+				results = transform(api_answer, "b_day")
+				# Rendering
+				return render(request,'results.html', {'user_picked': user_pick, 
 													 'formAction': "b_day", 
 													 'form': validate,
 													 'entries': get_entries(),
-													 'results' : diff_days
+													 'results' : results
 													 })
 
 		# Form not valid / render index where error will be shown
-		return render(request,'index.html', {'user_picked': user_pick, 
-											 'formAction': "b_day", 
-											 'form': validate,
-											 'entries': get_entries(),
-											 'error' : True,
-											 'feed' : get_feed()
-											 })
+		return render_index(request, user_pick, "b_day", validate, True)
+
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
 		return redirect('index')
@@ -126,26 +119,19 @@ def time_in(request):
 			if ( success ):
 				# Storing user input on DB
 				store_user_input("time_in", validate.cleaned_data['input_form'])
-				# Getting hours in locatin and timeoffset from current location
-				hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
-				time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
+				# Transforming XML into HTML
+				results = transform(api_answer, "time_in")
 
-				return render(request,'time_in.html', {'user_picked': user_pick, 
+				return render(request,'results.html', {'user_picked': user_pick, 
 													 'formAction': "time_in", 
 													 'form': validate,
 													 'entries': get_entries(),
-													 'hour' : hours_in_location,
-													 'offset': time_offset
+													 'results' : results
 													 })
 
 		# Form not valid - render index
-		return render(request,'index.html', {'user_picked': user_pick, 
-											 'formAction': "time_in", 
-											 'form': validate,
-											 'entries': get_entries(),
-											 'error' : True,
-											 'feed' : get_feed()
-											 })
+		return render_index(request, user_pick, "time_in", validate, True)
+
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
 		return redirect('index')
@@ -189,16 +175,95 @@ def was_born(request):
 													 })
 
 		# Form not valid - render index
-		return render(request,'index.html', {'user_picked': user_pick, 
-											 'formAction': "was_born", 
-											 'form': validate,
-											 'entries': get_entries(),
-											 'error' : True,
-											 'feed' : get_feed()
-											 })
+		return render_index(request, user_pick, "was_born", validate, True)
+
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
 		return redirect('index')
+
+
+'''
+	Answer to "How many calories on"
+
+	'''
+def calories_on(request):
+	if request.POST:
+		# Filling InputForm with request
+		validate = InputForm(request.POST)
+		# Getting title for "calories_on" action
+		user_pick = get_user_pick("calories_on")
+
+		# If form is valid prepare API call
+		if( validate.is_valid() ):
+			api_input = "calories on " + validate.cleaned_data['input_form']
+			api_answer, success = api_call(api_input, get_schema_parser('calories_on'))
+
+			if ( success ):
+				# Storing user input on DB
+				store_user_input("calories_on", validate.cleaned_data['input_form'])
+				# Transforming XML into HTML
+				results = transform(api_answer, "calories_on")
+
+				return render(request,'results.html', {'user_picked': user_pick, 
+													 'formAction': "calories_on", 
+													 'form': validate,
+													 'entries': get_entries(),
+													 'results' : results
+													 })
+
+		# Form not valid - render index
+		return render_index(request, user_pick, "calories_on", validate, True)
+
+	# If the request was a GET (or something not a POST), the user is redirected to index page
+	else:
+		return redirect('index')
+
+
+'''
+	Answer to "Biggest in the world"
+
+	'''
+def weather(request):
+	if request.POST:
+		# Filling InputForm with request
+		validate = InputForm(request.POST)
+		# Getting title for "weather" action
+		user_pick = get_user_pick("weather")
+
+		# If form is valid prepare API call
+		if( validate.is_valid() ):
+			api_input = "weather in" + validate.cleaned_data['input_form']
+			api_answer, success = api_call(api_input, get_schema_parser('weather'))
+
+			if ( success ):
+				# Storing user input on DB
+				store_user_input("weather", validate.cleaned_data['input_form'])
+				# Transforming XML into HTML
+				results = transform(api_answer, "weather")
+
+				return render(request,'results.html', {'user_picked': user_pick, 
+													 'formAction': "weather", 
+													 'form': validate,
+													 'entries': get_entries(),
+													 'results' : results
+													 })
+
+		# Form not valid - render index
+		return render_index(request, user_pick, "weather", validate, True)
+
+	# If the request was a GET (or something not a POST), the user is redirected to index page
+	else:
+		return redirect('index')
+
+
+def render_index(request, user_picked, formAction, form, error):
+	return render(request,'index.html', {	 'user_picked': user_picked, 
+											 'formAction':  formAction, 
+											 'form': 		form,
+											 'entries': 	get_entries(),
+											 'error' : 		error,
+											 'feed' : 		get_feed()
+											 })
 
 
 '''
@@ -215,10 +280,9 @@ def about(request):
 	'''
 def api_call(api_input, parser):
 	call = API_LINK + api_input
-
 	try:
-		if(True):
-			tree = xmlParser.parse('app/static/query.xml',parser)
+		if(not USE_API):
+			tree = xmlParser.parse('app/static/debug_samples/weather.xml',parser)
 			tree = tree.getroot()
 		else:
 			response = requests.get(call)
@@ -227,7 +291,8 @@ def api_call(api_input, parser):
 		return tree, True
 
 	# If Schema fails on validation
-	except:
+	except Exception as e:
+		print(e)
 		return None, False
 
 # Returns parser for XML schema validation
@@ -247,7 +312,8 @@ def get_schema_parser(action):
 def get_db_session():
 	try:
 		return BaseXClient.Session('localhost', 1984, 'admin', 'admin')
-	except:
+	except Exception as e:
+		print( e )
 		print('I was unable to connect to DataBase. Is BaseXServer running? You should have a DataBase called "entries".')
 		return False
 
@@ -369,19 +435,18 @@ def get_feed():
 		with open('app/static/feed_reddit/last_feed.xml', mode='wb') as newfile:
 			newfile.write(response.content)
 			newfile.close()
-		return transform_feed( eTree.fromstring(response.content) )
+		return transform( eTree.fromstring(response.content), 'feed')
 
-	# Reddit answer with 429 when it is feeling spammed, in that case return the last feed saved
+	# Reddit answer with 429 (Too Many Requests) when it is feeling spammed, in that case return the last feed saved
 	elif(response.status_code == 429):
-		return transform_feed( eTree.parse('app/static/feed_reddit/last_feed.xml') )
+		return transform( eTree.parse('app/static/feed_reddit/last_feed.xml'), 'feed' )
 
 	return False
 
-def transform_feed(feed):
-	# Using feed_transform.xsl to feed, turns it to a HTML list
-	xsl = eTree.parse('app/static/feed_reddit/feed_transform.xsl')
+def transform(xml, xsl_file):
+	xsl = eTree.parse('app/static/transform/'+ xsl_file +'.xsl')
 	transform = eTree.XSLT(xsl)
-	html_content = transform(feed)
+	html_content = transform(xml)
 	return html_content
 
 

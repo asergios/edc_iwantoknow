@@ -2,7 +2,8 @@
   <xs:element name="queryresult">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="pod" maxOccurs="unbounded" minOccurs="0">
+
+        <xs:element name="pod" maxOccurs="unbounded" minOccurs="2">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="subpod" maxOccurs="unbounded" minOccurs="0">
@@ -53,23 +54,9 @@
             <xs:attribute type="xs:string" name="primary" use="optional"/>
           </xs:complexType>
         </xs:element>
-        <xs:element name="sources">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="source" maxOccurs="unbounded" minOccurs="0">
-                <xs:complexType>
-                  <xs:simpleContent>
-                    <xs:extension base="xs:string">
-                      <xs:attribute type="xs:anyURI" name="url" use="optional"/>
-                      <xs:attribute type="xs:string" name="text" use="optional"/>
-                    </xs:extension>
-                  </xs:simpleContent>
-                </xs:complexType>
-              </xs:element>
-            </xs:sequence>
-            <xs:attribute type="xs:byte" name="count"/>
-          </xs:complexType>
-        </xs:element>
+
+        <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+
       </xs:sequence>
       <xs:attribute type="xs:string" name="success" fixed="true"/>
       <xs:attribute type="xs:string" name="error"/>
