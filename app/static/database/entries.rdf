@@ -1,4 +1,4 @@
-<rdf:RDF xmlns:html="http://www.w3.org/1999/xhtml"
+`<rdf:RDF xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:foaf="http://xmlns.com/foaf/spec/"
@@ -75,7 +75,7 @@
                   <pred:user_input>
                      <rdf:Description rdf:about="http://www.entries.com/input/1996-12-18">
                         <pred:input>1996-12-18</pred:input>
-                        <pred:times/>
+                        <pred:times>4</pred:times>
                      </rdf:Description>
                   </pred:user_input>
                   <pred:user_input>

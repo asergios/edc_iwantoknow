@@ -5,12 +5,20 @@ from django.views import View
 import xml.etree.ElementTree as xmlParser
 import lxml.etree as eTree
 import requests
-import app.static.database.BaseXClient.BaseXClient as BaseXClient
 from .forms import *
 import time
 
+import json
+from s4api.graphdb_api import GraphDBApi
+from s4api.swagger import ApiClient
+
+endpoint = "http://localhost:7200"
+repository = "entries"
+client = ApiClient(endpoint=endpoint)
+accessor = GraphDBApi(client)
+
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
-USE_API 	=  False # Set to False when debbuging, in order to don't spend queries
+USE_API 	=  False # Set to False when debbuging, in order to don't queries
 API_KEY 	= 'JX8868-T9QE9WHQTJ'
 API_LINK 	= 'http://api.wolframalpha.com/v2/query?appid=' + API_KEY + '&input='
 # Months array, used to translate number of month to string
@@ -24,9 +32,9 @@ ATOM_FEED   = 'https://www.reddit.com/r/wolframalpha.xml?limit=20'
 
 	'''
 class index(View):
-
 	# Response for a GET request, simply returns index page
 	def get(self, request, *args, **kwargs):
+		get_current_value("time_in", "Moscow")
 		return render(request,'index.html', { 'formAction': '' , 
 											  'form': '',
 											  'entries': get_entries(),
@@ -313,122 +321,191 @@ def get_schema_parser(action):
 
 
 '''
-	BaseX FUNCTIONS
+	GraphDB FUNCTIONS
 
 	'''	
 
 # return db session
 def get_db_session():
+	return False
 	try:
-		return BaseXClient.Session('127.0.0.1', 1984, 'admin', 'admin')
+		client = ApiClient(endpoint=endpoint)
+		accessor = GraphDBApi(client)
 	except Exception as e:
 		print( e )
 		print('I was unable to connect to DataBase. Is BaseXServer running? You should have a DataBase called "entries".')
 		return False
 
-# returns every entry found on DB
+
+# return list of entries on db
 def get_entries():
-	session = get_db_session()
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+		SELECT ?title
+		WHERE {
+		    ?some_entrie pred:title ?title
+		}
+	"""
 
-	if session:
-		# Building Query to get entries titles
-		query = "for $i in collection('entries')//entrie" \
-				" let $title :=$i/title/text()" \
-				" return $title"
+	query = {"query": query}
+	result = accessor.sparql_select(body=query,repo_name=repository)
+	result = json.loads(result)['results']['bindings']
 
-		# Executing Query
-		result = session.query(query)
-		# Transfer titles to a list
-		list_entries = [item for code, item in result.iter()]
+	entries = [title['title']['value'] for title in result]
 
-		session.close()
-	else:
-		return ["ERROR: I wasn't able to connect to BaseX, please check log"]
+	return entries
 
-	return list_entries
 
 # given an user_pick, returns the form action
 def get_form_action(user_pick):
-	session = get_db_session()
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+		SELECT ?action
+		WHERE {
+		    ?d pred:title \"""" + user_pick + """\".
+		    ?d pred:action ?action
+		}
+	"""
 
-	if session:
-		# Building Query to form action
-		query = "for $i in collection('entries')//entrie" \
-				" where $i/title = \"" + user_pick + "\"" +\
-				" return $i/action/text()"
+	query = {"query": query}
+	result = accessor.sparql_select(body=query,repo_name=repository)
+	result = json.loads(result)['results']['bindings']
 
-		# Executing Query
-		result = session.query(query)
+	action = result[0]['action']['value']
 
-		# Getting Action
-		action = [action for code, action in result.iter()]
-
-		session.close()
-	else:
-		return "db_error"
-
-	return action[0]
+	return action
 
 
 # given a form_action, returns the user_pick
 def get_user_pick(form_action):
-	session = get_db_session()
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+		SELECT ?user_pick
+		WHERE {
+		    ?d pred:action \"""" + form_action + """\".
+		    ?d pred:title ?user_pick
+		}
+	"""
 
-	if session:
-		# Building Query to form action
-		query = "for $i in collection('entries')//entrie" \
-				" where $i/action = \"" + form_action + "\"" +\
-				" return $i/title/text()"
+	query = {"query": query}
+	result = accessor.sparql_select(body=query,repo_name=repository)
+	result = json.loads(result)['results']['bindings']
+	title = result[0]['user_pick']['value']
 
-		# Executing Query
-		result = session.query(query)
-
-		# Getting title
-		title = [title for code, title in result.iter()]
-
-		session.close()
-	else:
-		return "db_error"
-
-	return title[0]
+	return title
 
 def store_user_input(action, user_input):
-	session = get_db_session()
+	exists = check_if_exists(action, user_input)
 
-	if session:
-		# Location of user_inputs for this action
-		location = "collection('entries')//entrie/action[text()=\""+ action +"\"]/../user_inputs"
-		# Condition to check if input already exists
-		exists = "(exists(" + location + "/user_input[text()=\""+ user_input +"\"]))"
-		# If already exists it will increments his 'times' value, else will create a new user_input
-		query = "xquery if " + exists + " then " \
-				"(replace value of node (" + location + "/user_input[text()=\""+ user_input +"\"]/@times) with (" + location + "/user_input[text()=\""+ user_input +"\"]/data(@times)) + 1) else " \
-				"(insert node (<user_input times=\"1\">" + user_input + "</user_input>) into  " + location + " )"
-		
-		result = session.execute(query)
-		
-		session.close()
+	if(exists):
+		current_value = get_current_value(action, user_input)
+		update_times(action, user_input, current_value + 1)
+	else:
+		add_input(action, user_input)
+
+
+def add_input(action, user_input):
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+        PREFIX user_inputs: <http://www.entries.com/user_inputs/>
+		PREFIX input: <http://www.entries.com/input/>
+
+		INSERT DATA{
+		    user_inputs:"""+action+""" pred:user_input input:"""+user_input+""".
+		    input:"""+user_input+""" pred:input \""""+user_input+"""\".
+		    input:"""+user_input+""" pred:times "1".
+		}
+	"""
+
+	query = {"update": query}
+	result = accessor.sparql_update(body=query,repo_name=repository)
+
+
+def update_times(action, user_input, value):
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+
+		DELETE{ 
+		    $c pred:times $oldtimes
+		 }
+		INSERT{  
+		    $c pred:times \""""+str(value)+"""\"
+		}
+		WHERE{ 
+		    $d pred:action \""""+action+"""\".
+		    $d pred:user_inputs $user_input.
+		    $user_input pred:user_input $c.
+		    $c pred:input \""""+user_input+"""\".
+    		$c pred:times $oldtimes.
+		}
+	"""
+
+	query = {"update": query}
+	result = accessor.sparql_update(body=query,repo_name=repository)
+
+
+
+def get_current_value(action, user_input):
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+        PREFIX input: <http://www.entries.com/input/>
+
+		SELECT ?times
+		WHERE{
+		    $d pred:action \""""+action+"""\".
+		    $d pred:user_inputs $user_input.
+		    $user_input pred:user_input $c.
+		    $c pred:input \""""+user_input+"""\".
+		    $c pred:times ?times
+		}
+	"""
+
+	query = {"query": query}
+	result = accessor.sparql_select(body=query,repo_name=repository)
+	result = json.loads(result)['results']['bindings']
+
+	times = result[0]['times']['value']
+	return int(times)
+
+
+def check_if_exists(action, user_input):
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+
+		ASK{
+			$d pred:action \""""+action+"""\".
+		    $d pred:user_inputs $user_input.
+		    $user_input pred:user_input $c.
+		    $c pred:input \""""+user_input+"""\"
+		}
+	"""
+
+	query = {"query": query}
+	result = accessor.sparql_select(body=query,repo_name=repository)
+	result = json.loads(result)['boolean']
+	return result
 
 def get_most_common(action):
-	session = get_db_session()
+	query = """
+        PREFIX pred: <http://www.entries.com/pred/>
+		PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+		SELECT ?user_inputs
+		WHERE {
+		    ?d pred:action \""""+action+"""\".
+		    ?d pred:user_inputs ?b.
+		    ?b pred:user_input ?c.
+		    ?c pred:input ?user_inputs.
+		    ?c pred:times ?times
+		}
+		ORDER BY DESC(xsd:nonNegativeInteger(?times))
+	"""
 
-	if session:
-		# Location of user_inputs of this action
-		inputs = "collection('entries')//entrie/action[text()=\""+ action +"\"]/../user_inputs/user_input"
-		# Ordering by times descending and returning first
-		query =  "(for $i in " + inputs + \
-				 " order by $i/data(@times) descending " \
-				 "return $i/text())[1]"
+	query = {"query": query}
+	result = accessor.sparql_select(body=query,repo_name=repository)
+	result = json.loads(result)['results']['bindings']
+	common = result[0]['user_inputs']['value']
 
-		result = session.query(query)
-		common = [common for code, common in result.iter()]
-
-
-		session.close()
-	else:
-		return "db_error"
-
-	return common[0]
+	return common
 
 '''
 	Reddit's ATOM feed
