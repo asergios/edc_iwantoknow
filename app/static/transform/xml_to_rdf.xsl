@@ -4,49 +4,57 @@
                 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
                 xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
                 xmlns:foaf="http://xmlns.com/foaf/spec/"
+                xmlns:pred="http://www.entries.com/pred/"
                 >
 
 
 	<xsl:template match="/">
 	    <rdf:RDF>
-	        <xsl:apply-templates/>
+	    	<rdf:Description rdf:about="http://www.entries.com/">
+	        	<xsl:apply-templates/>
+	        </rdf:Description>
 	    </rdf:RDF>
 	</xsl:template>
 
 
 	<xsl:template match="entrie">
 
+		<pred:entrie>
+
     	<xsl:variable name="action"><xsl:value-of select="action/text()"/></xsl:variable>
 
-	      <rdf:Description rdf:about="http://www.entries.com/entrie/{$action}">
+	      <rdf:Description rdf:about="http://www.entries.com/{$action}">
 
-	        <foaf:title><xsl:value-of select="title/text()"/></foaf:title>
-	        <foaf:action><xsl:value-of select="action/text()"/></foaf:action>
+	        <pred:title><xsl:value-of select="title/text()"/></pred:title>
+	        <pred:action><xsl:value-of select="action/text()"/></pred:action>
 
-	        <foaf:user_inputs>
+	        <pred:user_inputs>
 
-		        <rdf:Description rdf:about="http://www.user_inputs.com/{$action}">
+		        <rdf:Description rdf:about="http://www.entries.com/user_inputs/{$action}">
 
 			        <xsl:for-each select="user_inputs/user_input">
 
 			        	<xsl:variable name="input"><xsl:value-of select="text()"/></xsl:variable>
+			        	<pred:user_input>
+				        	<rdf:Description rdf:about="http://www.entries.com/input/{$input}">
 
-			        	<rdf:Description rdf:about="http://www.user_inputs.com/input/{$input}">
+				        		<pred:input><xsl:value-of select="text()"/></pred:input>
+				        		<pred:times><xsl:value-of select="@times"/></pred:times>
 
-			        		<foaf:input><xsl:value-of select="text()"/></foaf:input>
-			        		<foaf:times><xsl:value-of select="@times"/></foaf:times>
-
-			        	</rdf:Description>
+				        	</rdf:Description>
+				        </pred:user_input>
 
 			        </xsl:for-each>
 
 			    </rdf:Description>
 
-		    </foaf:user_inputs>
+		    </pred:user_inputs>
 
 	      </rdf:Description>
 
-  </xsl:template>
+	    </pred:entrie>
+
+  	</xsl:template>
 
 
 

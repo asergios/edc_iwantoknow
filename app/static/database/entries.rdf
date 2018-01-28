@@ -1,0 +1,154 @@
+<rdf:RDF xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:foaf="http://xmlns.com/foaf/spec/"
+         xmlns:pred="http://www.entries.com/pred/">
+   <rdf:Description rdf:about="http://www.entries.com/">
+      <pred:entrie>
+         <rdf:Description rdf:about="http://www.entries.com/b_day">
+            <pred:title>How much time has passed since my birthday</pred:title>
+            <pred:action>b_day</pred:action>
+            <pred:user_inputs>
+               <rdf:Description rdf:about="http://www.entries.com/user_inputs/b_day">
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/ 2000-12-01 ">
+                        <pred:input> 2000-12-01 </pred:input>
+                        <pred:times>1</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/01-12-2000">
+                        <pred:input>01-12-2000</pred:input>
+                        <pred:times>64</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/01-01-2018">
+                        <pred:input>01-01-2018</pred:input>
+                        <pred:times>1</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+               </rdf:Description>
+            </pred:user_inputs>
+         </rdf:Description>
+      </pred:entrie>
+      <pred:entrie>
+         <rdf:Description rdf:about="http://www.entries.com/time_in">
+            <pred:title>What time is it in</pred:title>
+            <pred:action>time_in</pred:action>
+            <pred:user_inputs>
+               <rdf:Description rdf:about="http://www.entries.com/user_inputs/time_in">
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/ Moscow ">
+                        <pred:input> Moscow </pred:input>
+                        <pred:times>2</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Spain">
+                        <pred:input>Spain</pred:input>
+                        <pred:times>10</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Russia">
+                        <pred:input>Russia</pred:input>
+                        <pred:times>1</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Moscow">
+                        <pred:input>Moscow</pred:input>
+                        <pred:times>4</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+               </rdf:Description>
+            </pred:user_inputs>
+         </rdf:Description>
+      </pred:entrie>
+      <pred:entrie>
+         <rdf:Description rdf:about="http://www.entries.com/was_born">
+            <pred:title>Who was born in</pred:title>
+            <pred:action>was_born</pred:action>
+            <pred:user_inputs>
+               <rdf:Description rdf:about="http://www.entries.com/user_inputs/was_born">
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/1996-12-18">
+                        <pred:input>1996-12-18</pred:input>
+                        <pred:times/>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/18-12-1996">
+                        <pred:input>18-12-1996</pred:input>
+                        <pred:times>6</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/18-12-1990">
+                        <pred:input>18-12-1990</pred:input>
+                        <pred:times>33</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/03-10-1998">
+                        <pred:input>03-10-1998</pred:input>
+                        <pred:times>2</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+               </rdf:Description>
+            </pred:user_inputs>
+         </rdf:Description>
+      </pred:entrie>
+      <pred:entrie>
+         <rdf:Description rdf:about="http://www.entries.com/calories_on">
+            <pred:title>How many calories are on</pred:title>
+            <pred:action>calories_on</pred:action>
+            <pred:user_inputs>
+               <rdf:Description rdf:about="http://www.entries.com/user_inputs/calories_on">
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Apple">
+                        <pred:input>Apple</pred:input>
+                        <pred:times>4</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Chocolate">
+                        <pred:input>Chocolate</pred:input>
+                        <pred:times>1</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Potato">
+                        <pred:input>Potato</pred:input>
+                        <pred:times>1</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+               </rdf:Description>
+            </pred:user_inputs>
+         </rdf:Description>
+      </pred:entrie>
+      <pred:entrie>
+         <rdf:Description rdf:about="http://www.entries.com/weather">
+            <pred:title>How's the weather in</pred:title>
+            <pred:action>weather</pred:action>
+            <pred:user_inputs>
+               <rdf:Description rdf:about="http://www.entries.com/user_inputs/weather">
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Moscow">
+                        <pred:input>Moscow</pred:input>
+                        <pred:times>4</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+                  <pred:user_input>
+                     <rdf:Description rdf:about="http://www.entries.com/input/Tokyo">
+                        <pred:input>Tokyo</pred:input>
+                        <pred:times>1</pred:times>
+                     </rdf:Description>
+                  </pred:user_input>
+               </rdf:Description>
+            </pred:user_inputs>
+         </rdf:Description>
+      </pred:entrie>
+   </rdf:Description>
+</rdf:RDF>
