@@ -3,7 +3,7 @@
     <xs:complexType>
       <xs:sequence>
 
-        <xs:element name="pod" maxOccurs="2" minOccurs="unbounded">
+        <xs:element name="pod" maxOccurs="unbounded" minOccurs="2">
           <xs:complexType>
             <xs:sequence>
               <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>

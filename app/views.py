@@ -10,7 +10,7 @@ from .forms import *
 import time
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
-USE_API 	=  False # Set to False when debbuging, in order to don't spend queries
+USE_API 	=  True # Set to False when debbuging, in order to don't spend queries
 API_KEY 	= 'JX8868-T9QE9WHQTJ'
 API_LINK 	= 'http://api.wolframalpha.com/v2/query?appid=' + API_KEY + '&input='
 # Months array, used to translate number of month to string
