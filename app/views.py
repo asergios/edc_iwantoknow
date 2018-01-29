@@ -9,7 +9,7 @@ from .forms import *
 import time
 import datetime
 
-
+# Importing graphDB functions
 from app import graphDB as db
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
@@ -50,7 +50,7 @@ class index(View):
 			# TODO: this works?
 			return self.get()
 
-	# From user_pick get the form actions and fields
+	# From the question the user picked, get the form actions and fields
 	def translate_user_pick(self, user_pick):
 		# Getting form actiong from DataBase
 		form_action = db.get_form_action(user_pick)
@@ -66,37 +66,37 @@ class index(View):
 	'''
 def b_day(request):
 	if request.POST:
-		# Filling DateForm with request
-		validate = DateForm(request.POST)
-		# Getting title for "b_day" action
-		user_pick = db.get_user_pick("b_day")
+		validate = DateForm(request.POST)		# Filling DateForm with request
+		user_pick = db.get_user_pick("b_day") 	# Getting title for "b_day" action
 
 		# If form is valid
 		if( validate.is_valid() ):
-			date = validate.cleaned_data['date']
-			success = True
+			date 		= validate.cleaned_data['date']		# Get date from form
+			user_input 	= date.strftime("%d-%m-%Y")			# Converting date to string
+			success 	= True
 
-			# If a valide result already exists
-			if( db.exists_result(date.strftime("%d-%m-%Y"), "b_day") ):
-				diff_days = db.get_result(date.strftime("%d-%m-%Y"), "b_day", "DifferenceConversions")
+			# Checking if a valid result for this input already exist, if it does, get it
+			if ( db.exists_result(user_input, "b_day") ):
+				diff_days = db.get_result(user_input, "b_day", "DifferenceConversions")
+				db.store_user_input("b_day", user_input)  # Storing user input on DB
 
-			# Else use API to generate new one and then store it
+			# Else use API to generate new one and then store it on database
 			else:
-				# Translating month number to string
-				month = MONTHS[date.month - 1]
-				api_input = str(date.day) + '+' + month + '+' + str(date.year)
-				api_answer, success = api_call(api_input, get_schema_parser('b_day'))
-				if (success):
+				month 	  = MONTHS[date.month - 1] 								# Translating month number to string
+				api_input = str(date.day) + '+' + month + '+' + str(date.year)	# Building Query for API call
+				api_answer, success = api_call( api_input, get_schema_parser('b_day') )
+
+				# If API call was successfull
+				if ( success ):
+					db.store_user_input("b_day", user_input)  # Storing user input on DB
 					# Getting DifferenceConversions with the results we want
 					diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
 					diff_days = [d.text for d in diff_days]
+					# This result with expire at midnight of today 
 					seconds_to_midnight = (24 - datetime.datetime.now().hour) * 60
-					db.store_result(diff_days, "b_day", date.strftime("%d-%m-%Y"), "DifferenceConversions", seconds_to_midnight)
+					db.store_result(diff_days, "b_day", user_input, "DifferenceConversions", seconds_to_midnight)
 
-			if ( success ):
-				# Storing user input on DB
-				db.store_user_input("b_day", date.strftime("%d-%m-%Y"))
-				
+			if ( success ):	
 				# Rendering
 				return render(request,'b_day.html', {'user_picked': user_pick, 
 													 'formAction': "b_day", 
@@ -119,34 +119,39 @@ def b_day(request):
 	'''
 def time_in(request):
 	if request.POST:
-		# Filling InputForm with request
-		validate = InputForm(request.POST)
-		# Getting title for "time_in" action
-		user_pick = db.get_user_pick("time_in")
+		validate 	= InputForm(request.POST)		# Filling InputForm with request
+		user_pick 	= db.get_user_pick("time_in") 	# Getting title for "time_in" action
 
-		# If form is valid prepare API call
+		# If form is valid
 		if( validate.is_valid() ):
-			user_input = validate.cleaned_data['input_form']
-			success = True
+			user_input 	= validate.cleaned_data['input_form'] # Getting Input from form
+			success 	= True
 
-			# If a valide result already exists
+			# Checking if a valid result for this input already exist, if it does, get it
 			if( db.exists_result( user_input, "time_in") ):
+
 				hours_in_location = db.get_result( user_input, "time_in", "Result")[0]
 				time_offset = db.get_result( user_input, "time_in", "TimeOffsets")[0]
+				db.store_user_input("time_in", user_input)  # Storing user input on DB
+
+			# Else use API to generate new one and then store it on database
 			else:
+
 				api_input = "time in " + user_input
 				api_answer, success = api_call(api_input, get_schema_parser('time_in'))
+
 				if (success):
+					db.store_user_input("time_in", user_input)  # Storing user input on DB
+					# Getting Results via XPath
 					hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 					time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
+					# If Location is at same location, time_offset will return None
 					time_offset = "+0" if time_offset is None else time_offset
+					# Storing Results
 					db.store_result([hours_in_location], "time_in",  user_input, "Result", 30)
 					db.store_result([time_offset], "time_in", user_input, "TimeOffsets", 30)
 
 			if ( success ):
-				# Storing user input on DB
-				db.store_user_input("time_in", user_input)
-
 				return render(request,'time_in.html', {'user_picked': user_pick, 
 													 'formAction': "time_in", 
 													 'form': validate,
@@ -155,7 +160,7 @@ def time_in(request):
 													 'offset' : time_offset
 													 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "time_in", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
@@ -169,29 +174,29 @@ def time_in(request):
 	'''
 def was_born(request):
 	if request.POST:
-		# Filling InputForm with request
-		validate = DateForm(request.POST)
-		# Getting title for "was_born" action
-		user_pick = db.get_user_pick("was_born")
+		validate 	= DateForm(request.POST) 		# Filling DateForm with request
+		user_pick 	= db.get_user_pick("was_born") 	# Getting title for "was_born" action
 
-		# If form is valid prepare API call
+		# If form is valid
 		if( validate.is_valid() ):
-			date = validate.cleaned_data['date']
-			user_input = date.strftime("%d-%m-%Y")
-			success = True
+			date 		= validate.cleaned_data['date']		# Get date from form
+			user_input 	= date.strftime("%d-%m-%Y")			# Converting date to string
+			success 	= True
 
-			# If a valide result already exists
+			# Checking if a valid result for this input already exist, if it does, get it
 			if( db.exists_result(user_input, "was_born") ):
 				result = db.get_result(user_input, "was_born", "Result")
+				db.store_user_input("was_born", user_input)  # Storing user input on DB
 
-			# Else use API to generate new one and then store it
+			# Else use API to generate new one and then store it on database
 			else:
-				# Translating month number to string
-				month = MONTHS[date.month - 1]
+				month = MONTHS[date.month - 1] 	# Translating month number to string
 				api_input = "people born in " + month + ' ' + str(date.day) + ' ' + str(date.year)
 				api_answer, success = api_call(api_input, get_schema_parser('was_born'))
+
 				if (success):
-					# Getting result
+					db.store_user_input("was_born", user_input)  # Storing user input on DB
+					# Getting result wanted with XPath
 					result = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 					result = result.split('|')
 					result[-1] = result[-1].split('(total')[0]
@@ -199,9 +204,6 @@ def was_born(request):
 
 
 			if ( success ):
-				# Storing user input on DB
-				db.store_user_input("was_born", user_input)
-
 				return render(request,'was_born.html', {'user_picked': user_pick, 
 													 'formAction': "was_born", 
 													 'form': validate,
@@ -209,7 +211,7 @@ def was_born(request):
 													 'results' : result
 													 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "was_born", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
@@ -223,33 +225,33 @@ def was_born(request):
 	'''
 def calories_on(request):
 	if request.POST:
-		# Filling InputForm with request
-		validate = InputForm(request.POST)
-		# Getting title for "calories_on" action
-		user_pick = db.get_user_pick("calories_on")
+		validate = InputForm(request.POST)				# Filling InputForm with request
+		user_pick = db.get_user_pick("calories_on")		# Getting title for "calories_on" action
 
-		# If form is valid prepare API call
+		# If form is valid
 		if( validate.is_valid() ):
 			user_input = validate.cleaned_data['input_form']
 			success = True
 
-			# If a valide result already exists
+			# Checking if a valid result for this input already exist, if it does, get it
 			if( db.exists_result( user_input, "calories_on") ):
 				calories = db.get_result( user_input, "calories_on", "Result")[0]
 				rdf = db.get_result( user_input, "calories_on", "RDVPod")[0]
+				db.store_user_input("calories_on", user_input)	# Storing user input on DB
+
+			# Else use API to generate new one and then store it on database
 			else:
 				api_input = "calories on " + validate.cleaned_data['input_form']
 				api_answer, success = api_call(api_input, get_schema_parser('calories_on'))
 				if ( success ):
+					db.store_user_input("calories_on", user_input)	# Storing user input on DB
+					# Getting result with XPath
 					calories = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 					rdf = api_answer.findtext('./pod[@id=\'RDVPod:Calories:ExpandedFoodData\']/subpod/plaintext').split("|", 3)[-1].replace("\n"," ")
 					db.store_result([calories], "calories_on",  user_input, "Result", 604800)
 					db.store_result([rdf], "calories_on",  user_input, "RDVPod", 604800)
 
 			if ( success ):
-				# Storing user input on DB
-				db.store_user_input("calories_on", validate.cleaned_data['input_form'])
-
 				return render(request,'calories_on.html', {'user_picked': user_pick, 
 														 'formAction': "calories_on", 
 														 'form': validate,
@@ -258,7 +260,7 @@ def calories_on(request):
 														 'rdf' : rdf
 														 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "calories_on", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
@@ -272,32 +274,29 @@ def calories_on(request):
 	'''
 def weather(request):
 	if request.POST:
-		# Filling InputForm with request
-		validate = InputForm(request.POST)
-		# Getting title for "weather" action
-		user_pick = db.get_user_pick("weather")
+		validate = InputForm(request.POST)			# Filling InputForm with request
+		user_pick = db.get_user_pick("weather")		# Getting title for "weather" action
 
-		# If form is valid prepare API call
+		# If form is valid
 		if( validate.is_valid() ):
 			user_input = validate.cleaned_data['input_form']
 			success = True
 
-			# If a valide result already exists
+			# Checking if a valid result for this input already exist, if it does, get it
 			if( db.exists_result( user_input, "weather") ):
 				result = db.get_result( user_input, "weather", "WeatherForecast")[0]
+				db.store_user_input("weather", user_input)	# Storing user input on DB
+
 			else:
 				api_input = "weather in " + user_input
 				api_answer, success = api_call(api_input, get_schema_parser('weather'))
 				if ( success ):
+					db.store_user_input("weather", user_input)	# Storing user input on DB
 					result = api_answer.findtext('./pod[@id=\'WeatherForecast:WeatherData\']/subpod/plaintext').replace("\n"," ")
 					db.store_result([result], "weather",  user_input, "WeatherForecast", 900)
 
 			if ( success ):
-				# Storing user input on DB
-				db.store_user_input("weather", validate.cleaned_data['input_form'])
-
 				result = result.split("|")[0]
-
 				return render(request,'weather.html', {'user_picked': user_pick, 
 													 'formAction': "weather", 
 													 'form': validate,
@@ -305,22 +304,12 @@ def weather(request):
 													 'result' : result
 													 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "weather", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
 	else:
 		return redirect('index')
-
-
-def render_index(request, user_picked, formAction, form, error):
-	return render(request,'index.html', {	 'user_picked': user_picked, 
-											 'formAction':  formAction, 
-											 'form': 		form,
-											 'entries': 	db.get_entries(),
-											 'error' : 		error,
-											 'feed' : 		get_feed()
-											 })
 
 
 '''
@@ -338,6 +327,16 @@ def about(request):
 def report(request):
 	return FileResponse(open('app/static/EDC_report_tp2.pdf', 'rb'), content_type='application/pdf')
 
+
+# Render Index
+def render_index(request, user_picked, formAction, form, error):
+	return render(request,'index.html', {	 'user_picked': user_picked, 
+											 'formAction':  formAction, 
+											 'form': 		form,
+											 'entries': 	db.get_entries(),
+											 'error' : 		error,
+											 'feed' : 		get_feed()
+											 })
 
 
 '''
