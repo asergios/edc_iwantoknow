@@ -29,10 +29,10 @@ ATOM_FEED   = 'https://www.reddit.com/r/wolframalpha.xml?limit=20'
 class index(View):
 	# Response for a GET request, simply returns index page
 	def get(self, request, *args, **kwargs):
-		return render(request,'index.html', { 'formAction': '' , 
-											  'form': '',
-											  'entries': db.get_entries(),
-											  'feed' : get_feed()
+		return render(request,'index.html', { 'formAction'	: '' , 
+											  'form'		: '',
+											  'entries'		: db.get_entries(),
+											  'feed' 		: get_feed()
 											})
 
 	# Response for a POST request, returns index page, now with the form for the user to fill
@@ -40,11 +40,11 @@ class index(View):
 		if "pick" in request.POST:
 			user_pick = request.POST.get("pick")
 			action, form = self.translate_user_pick(user_pick)
-			return render(request,'index.html', {'user_picked': user_pick, 
-												 'formAction': action, 
-												 'form': form,
-												 'entries': db.get_entries(),
-												 'feed' : get_feed()
+			return render(request,'index.html', {	'user_picked'	: user_pick, 
+												 	'formAction'	: action, 
+												 	'form'			: form,
+												 	'entries'		: db.get_entries(),
+												 	'feed' 			: get_feed()
 												 })
 		else:
 			# TODO: this works?
@@ -98,11 +98,12 @@ def b_day(request):
 
 			if ( success ):	
 				# Rendering
-				return render(request,'b_day.html', {'user_picked': user_pick, 
-													 'formAction': "b_day", 
-													 'form': validate,
-													 'entries': db.get_entries(),
-													 'results' : diff_days
+				return render(request,'b_day.html', {	'user_picked'	: user_pick, 
+													 	'user_input' 	: user_input,
+													 	'formAction'	: "b_day", 
+													 	'form'			: validate,
+													 	'entries'		: db.get_entries(),
+													 	'results' 		: diff_days
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -152,12 +153,13 @@ def time_in(request):
 					db.store_result([time_offset], "time_in", user_input, "TimeOffsets", 30)
 
 			if ( success ):
-				return render(request,'time_in.html', {'user_picked': user_pick, 
-													 'formAction': "time_in", 
-													 'form': validate,
-													 'entries': db.get_entries(),
-													 'hour' : hours_in_location,
-													 'offset' : time_offset
+				return render(request,'time_in.html', {	'user_picked'	: user_pick, 
+													 	'user_input' 	: user_input,
+													 	'formAction'	: "time_in", 
+													 	'form'			: validate,
+													 	'entries'		: db.get_entries(),
+													 	'hour' 			: hours_in_location,
+													 	'offset' 		: time_offset
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -204,11 +206,12 @@ def was_born(request):
 
 
 			if ( success ):
-				return render(request,'was_born.html', {'user_picked': user_pick, 
-													 'formAction': "was_born", 
-													 'form': validate,
-													 'entries': db.get_entries(),
-													 'results' : result
+				return render(request,'was_born.html', {	'user_picked'	: user_pick, 
+													 		'user_input' 	: user_input,
+													 		'formAction'	: "was_born", 
+													 		'form'			: validate,
+													 		'entries'		: db.get_entries(),
+													 		'results' 		: result
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -252,12 +255,13 @@ def calories_on(request):
 					db.store_result([rdf], "calories_on",  user_input, "RDVPod", 604800)
 
 			if ( success ):
-				return render(request,'calories_on.html', {'user_picked': user_pick, 
-														 'formAction': "calories_on", 
-														 'form': validate,
-														 'entries': db.get_entries(),
-														 'calories' : calories,
-														 'rdf' : rdf
+				return render(request,'calories_on.html', {	'user_picked'	: user_pick, 
+															'user_input'	: user_input,
+														 	'formAction'	: "calories_on", 
+														 	'form'			: validate,
+														 	'entries'		: db.get_entries(),
+														 	'calories' 		: calories,
+														 	'rdf' 			: rdf
 														 })
 
 		# Form not valid / render index where error will be shown
@@ -297,11 +301,12 @@ def weather(request):
 
 			if ( success ):
 				result = result.split("|")[0]
-				return render(request,'weather.html', {'user_picked': user_pick, 
-													 'formAction': "weather", 
-													 'form': validate,
-													 'entries': db.get_entries(),
-													 'result' : result
+				return render(request,'weather.html', {	'user_picked'	: user_pick, 
+														'user_input'	: user_input,
+													 	'formAction'	: "weather", 
+													 	'form'			: validate,
+													 	'entries'		: db.get_entries(),
+													 	'result' 		: result
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -330,12 +335,12 @@ def report(request):
 
 # Render Index
 def render_index(request, user_picked, formAction, form, error):
-	return render(request,'index.html', {	 'user_picked': user_picked, 
-											 'formAction':  formAction, 
-											 'form': 		form,
-											 'entries': 	db.get_entries(),
-											 'error' : 		error,
-											 'feed' : 		get_feed()
+	return render(request,'index.html', {	 'user_picked'	: user_picked, 
+											 'formAction'	: formAction, 
+											 'form'			: form,
+											 'entries'		: db.get_entries(),
+											 'error' 		: error,
+											 'feed' 		: get_feed()
 											 })
 
 

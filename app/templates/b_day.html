@@ -1,15 +1,21 @@
 {% extends "results.html" %}
 
 {% block final %}
-		<div class="bday-results">
+		<div class="bday-results" 	xmlns:pred= "http://www.entries.com/pred/" 
+									about= "http://www.entries.com/result/b_day/{{user_input}}"
+									typeof= "pred:result">
+
         		<h1> Your were born... </h1>
          
-                <h3> {{results.0}} </h3>
+        <span rel="pred:has_pod" href="http://www.entries.com/pod/b_day/{{user_input}}/DifferenceConversions">
+                <h3 property="pred:content" > {{results.0}} </h3>
 
-				<h3> {{results.1}} </h3>
+				<h3 property="pred:content" > {{results.1}} </h3>
 
-				<h3> {{results.2}} </h3>
+				<h3 property="pred:content" > {{results.2}} </h3>
 
-				<h3> {{results.3}} </h3>
+				<h3 property="pred:content" > {{results.3}} </h3>
+		</span>
+
         </div>
 {% endblock %}

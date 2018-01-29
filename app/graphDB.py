@@ -10,7 +10,7 @@ accessor = GraphDBApi(client)
 
 
 
-# return list of entries on db
+# Returns list of entries on db
 def get_entries():
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -29,7 +29,7 @@ def get_entries():
 	return entries
 
 
-# given an user_pick, returns the form action
+# Given an user_pick, returns the form action
 def get_form_action(user_pick):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -49,7 +49,7 @@ def get_form_action(user_pick):
 	return action
 
 
-# given a form_action, returns the user_pick
+# Given a form_action, returns the user_pick
 def get_user_pick(form_action):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -67,8 +67,9 @@ def get_user_pick(form_action):
 
 	return title
 
-# if inputs exists, increments times else creates new input
+# If inputs exists, increments times else creates new input
 def store_user_input(action, user_input):
+	user_input = user_input.replace(" ", "_")
 	exists = check_if_exists(action, user_input)
 
 	if(exists):
@@ -77,7 +78,7 @@ def store_user_input(action, user_input):
 	else:
 		add_input(action, user_input)
 
-# adding new input
+# Adding new input
 def add_input(action, user_input):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -96,7 +97,7 @@ def add_input(action, user_input):
 	query = {"update": query}
 	result = accessor.sparql_update(body=query,repo_name=repository)
 
-# update times value
+# Update times value
 def update_times(action, user_input, value):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -119,7 +120,7 @@ def update_times(action, user_input, value):
 	query = {"update": query}
 	result = accessor.sparql_update(body=query,repo_name=repository)
 
-# get current times value
+# Get current times value
 def get_current_value(action, user_input):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -141,7 +142,7 @@ def get_current_value(action, user_input):
 	times = result[0]['times']['value']
 	return int(times)
 
-# check if input exists
+# Check if input exists
 def check_if_exists(action, user_input):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -159,7 +160,7 @@ def check_if_exists(action, user_input):
 	result = json.loads(result)['boolean']
 	return result
 
-# get most common input for given action
+# Get most common input for given action
 def get_most_common(action):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
@@ -182,8 +183,10 @@ def get_most_common(action):
 
 	return common
 
-# get result from given user_input
+# Get result from given user_input
 def get_result(user_input, action, pod_name):
+	user_input = user_input.replace(" ", "_")
+
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
 		PREFIX input: <http://www.entries.com/input/>
@@ -208,8 +211,10 @@ def get_result(user_input, action, pod_name):
 	results = [r['content']['value'] for r in result]
 	return results
 
-# return boolean representing if there is a valid result for given input
+# Return boolean representing if there is a valid result for given input
 def exists_result(user_input, action):
+	user_input = user_input.replace(" ", "_")
+
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
 
@@ -231,8 +236,10 @@ def exists_result(user_input, action):
 	return result
 
 
-# store result into db
+# Store result into db
 def store_result(results, action, user_input, pod_name, time_to_expirate):
+	user_input = user_input.replace(" ", "_")
+
 	delete_old_result(action, user_input, pod_name)
 
 	expires_in = int(time.time()) + time_to_expirate
@@ -260,13 +267,11 @@ def store_result(results, action, user_input, pod_name, time_to_expirate):
 	"""
 
 	query += query2
-
 	query = {"update": query}
 	result = accessor.sparql_update(body=query,repo_name=repository)
-	print(result)
 
 
-# delete old result no longer valid
+# Delete old result no longer valid
 def delete_old_result(action, user_input, pod_name):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>

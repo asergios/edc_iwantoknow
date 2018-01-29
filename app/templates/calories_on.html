@@ -2,9 +2,19 @@
 
 {% block final %}
 
-		<div class="bday-results">
-			<h1> It has about {{calories}} calories! </h1> 
-			<h3> {{rdf}} </h3>
+		<div class="bday-results"
+								xmlns:pred= "http://www.entries.com/pred/" 
+								about= "http://www.entries.com/result/calories_on/{{user_input}}"
+								typeof= "pred:result"
+								>
+
+			<span rel="pred:has_pod" href="http://www.entries.com/pod/calories_on/{{user_input}}/Result">
+				<h1> It has about <span property="pred:content" >{{calories}}</span> calories! </h1> 
+			</span>
+
+			<span rel="pred:has_pod" href="http://www.entries.com/pod/calories_on/{{user_input}}/RDVPod">
+				<h3 property="pred:content" > {{rdf}} </h3>
+			</span>
 		</div>
 
 {% endblock %}

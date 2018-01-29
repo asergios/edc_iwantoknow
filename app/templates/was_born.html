@@ -2,13 +2,18 @@
 
 {% block final %}
 
-		<div class="bday-results">
+		<div class="bday-results"
+								xmlns:pred= "http://www.entries.com/pred/" 
+								about= "http://www.entries.com/result/was_born/{{user_input}}"
+								typeof= "pred:result"
+								>
 			<h1> People Born in this day: </h1>
 
-			{% for r in results %}
-				<h3> <a class="was_born" href='https://www.google.com/search?q={{r}}' > {{r}} </a> </h3>
-			{% endfor %}
-
+			<span rel="pred:has_pod" href="http://www.entries.com/pod/was_born/{{user_input}}/Result">
+				{% for r in results %}
+					<h3> <a class="was_born" href='https://www.google.com/search?q={{r}}' > <span property="pred:content"> {{r}} </span> </a> </h3>
+				{% endfor %}
+			</span>
 		</div>
 
 {% endblock %}

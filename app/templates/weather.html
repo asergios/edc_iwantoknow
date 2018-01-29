@@ -2,8 +2,14 @@
 
 {% block final %}
 
-		<div class="bday-results">
-				<h1>Something {{result}}  </h1> 
+		<div class="bday-results"
+								xmlns:pred= "http://www.entries.com/pred/" 
+								about= "http://www.entries.com/result/weather/{{user_input}}"
+								typeof= "pred:result"
+								>
+				<span rel="pred:has_pod" href="http://www.entries.com/pod/weather/{{user_input}}/Result">
+					<h1> Something <span property="pred:content">{{result}}</span>  </h1> 
+				</span>
 		</div>
 
 {% endblock %}
