@@ -36,11 +36,17 @@
 
 			        	<xsl:variable name="input"><xsl:value-of select="text()"/></xsl:variable>
 			        	<pred:user_input>
-				        	<rdf:Description rdf:about="http://www.entries.com/input/{$input}">
+				        	<rdf:Description rdf:about="http://www.entries.com/user_inputs/{$action}/{$input}">
 
 				        		<pred:input><xsl:value-of select="text()"/></pred:input>
 				        		<pred:times><xsl:value-of select="@times"/></pred:times>
 
+				        		<pred:result>
+					        		<rdf:Description rdf:about="http://www.entries.com/result/{$action}/{$input}">
+					        			
+					        		</rdf:Description>
+					        	</pred:result>
+					        	
 				        	</rdf:Description>
 				        </pred:user_input>
 

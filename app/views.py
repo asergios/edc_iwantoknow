@@ -8,17 +8,11 @@ import requests
 from .forms import *
 import time
 
-import json
-from s4api.graphdb_api import GraphDBApi
-from s4api.swagger import ApiClient
 
-endpoint = "http://localhost:7200"
-repository = "entries"
-client = ApiClient(endpoint=endpoint)
-accessor = GraphDBApi(client)
+from app import graphDB as db
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
-USE_API 	=  False # Set to False when debbuging, in order to don't queries
+USE_API 	=  True # Set to False when debbuging, in order to don't queries
 API_KEY 	= 'JX8868-T9QE9WHQTJ'
 API_LINK 	= 'http://api.wolframalpha.com/v2/query?appid=' + API_KEY + '&input='
 # Months array, used to translate number of month to string
@@ -34,10 +28,9 @@ ATOM_FEED   = 'https://www.reddit.com/r/wolframalpha.xml?limit=20'
 class index(View):
 	# Response for a GET request, simply returns index page
 	def get(self, request, *args, **kwargs):
-		get_current_value("time_in", "Moscow")
 		return render(request,'index.html', { 'formAction': '' , 
 											  'form': '',
-											  'entries': get_entries(),
+											  'entries': db.get_entries(),
 											  'feed' : get_feed()
 											})
 
@@ -49,7 +42,7 @@ class index(View):
 			return render(request,'index.html', {'user_picked': user_pick, 
 												 'formAction': action, 
 												 'form': form,
-												 'entries': get_entries(),
+												 'entries': db.get_entries(),
 												 'feed' : get_feed()
 												 })
 		else:
@@ -59,11 +52,11 @@ class index(View):
 	# From user_pick get the form actions and fields
 	def translate_user_pick(self, user_pick):
 		# Getting form actiong from DataBase
-		form_action = get_form_action(user_pick)
+		form_action = db.get_form_action(user_pick)
 		if (form_action == "b_day" or form_action == "was_born"):
-			return (form_action, DateForm(initial= {'date': get_most_common(form_action)} ) )
+			return (form_action, DateForm(initial= {'date': db.get_most_common(form_action)} ) )
 		else:
-			return (form_action, InputForm(initial= {'input_form': get_most_common(form_action)} ) )
+			return (form_action, InputForm(initial= {'input_form': db.get_most_common(form_action)} ) )
 
 
 '''
@@ -75,29 +68,39 @@ def b_day(request):
 		# Filling DateForm with request
 		validate = DateForm(request.POST)
 		# Getting title for "b_day" action
-		user_pick = get_user_pick("b_day")
+		user_pick = db.get_user_pick("b_day")
 
-		# If form is valid prepare API call
+		# If form is valid
 		if( validate.is_valid() ):
 			date = validate.cleaned_data['date']
+			success = True
 
-			# Translating month number to string
-			month = MONTHS[date.month - 1]
+			# If a valide result already exists
+			if( db.exists_result(date.strftime("%d-%m-%Y"), "b_day") ):
+				diff_days = db.get_result(date.strftime("%d-%m-%Y"), "b_day", "DifferenceConversions")
 
-			api_input = str(date.day) + '+' + month + '+' + str(date.year)
-			api_answer, success = api_call(api_input, get_schema_parser('b_day'))
+			# Else use API to generate new one and then store it
+			else:
+				# Translating month number to string
+				month = MONTHS[date.month - 1]
+				api_input = str(date.day) + '+' + month + '+' + str(date.year)
+				api_answer, success = api_call(api_input, get_schema_parser('b_day'))
+				if (success):
+					# Getting DifferenceConversions with the results we want
+					diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
+					diff_days = [d.text for d in diff_days]
+					db.store_result(diff_days, "b_day", date.strftime("%d-%m-%Y"), "DifferenceConversions")
 
 			if ( success ):
 				# Storing user input on DB
-				store_user_input("b_day", date.strftime("%d-%m-%Y"))
-				# Transforming XML into HTML
-				results = transform(api_answer, "b_day")
+				db.store_user_input("b_day", date.strftime("%d-%m-%Y"))
+				
 				# Rendering
-				return render(request,'results.html', {'user_picked': user_pick, 
+				return render(request,'b_day.html', {'user_picked': user_pick, 
 													 'formAction': "b_day", 
 													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
+													 'entries': db.get_entries(),
+													 'results' : diff_days
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -117,24 +120,37 @@ def time_in(request):
 		# Filling InputForm with request
 		validate = InputForm(request.POST)
 		# Getting title for "time_in" action
-		user_pick = get_user_pick("time_in")
+		user_pick = db.get_user_pick("time_in")
 
 		# If form is valid prepare API call
 		if( validate.is_valid() ):
-			api_input = "time in " + validate.cleaned_data['input_form']
-			api_answer, success = api_call(api_input, get_schema_parser('time_in'))
+			user_input = validate.cleaned_data['input_form']
+			success = True
+
+			# If a valide result already exists
+			if( db.exists_result( user_input, "time_in") ):
+				hours_in_location = db.get_result( user_input, "time_in", "Result")[0]
+				time_offset = db.get_result( user_input, "time_in", "TimeOffsets")[0]
+			else:
+				api_input = "time in " + user_input
+				api_answer, success = api_call(api_input, get_schema_parser('time_in'))
+				if (success):
+					hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
+					time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
+					time_offset = "+0" if time_offset is None else time_offset
+					db.store_result([hours_in_location], "time_in",  user_input, "Result")
+					db.store_result([time_offset], "time_in", user_input, "TimeOffsets")
 
 			if ( success ):
 				# Storing user input on DB
-				store_user_input("time_in", validate.cleaned_data['input_form'])
-				# Transforming XML into HTML
-				results = transform(api_answer, "time_in")
+				db.store_user_input("time_in", user_input)
 
-				return render(request,'results.html', {'user_picked': user_pick, 
+				return render(request,'time_in.html', {'user_picked': user_pick, 
 													 'formAction': "time_in", 
 													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
+													 'entries': db.get_entries(),
+													 'hour' : hours_in_location,
+													 'offset' : time_offset
 													 })
 
 		# Form not valid - render index
@@ -154,31 +170,40 @@ def was_born(request):
 		# Filling InputForm with request
 		validate = DateForm(request.POST)
 		# Getting title for "was_born" action
-		user_pick = get_user_pick("was_born")
+		user_pick = db.get_user_pick("was_born")
 
 		# If form is valid prepare API call
 		if( validate.is_valid() ):
 			date = validate.cleaned_data['date']
+			user_input = date.strftime("%d-%m-%Y")
+			success = True
 
-			# Translating month number to string
-			month = MONTHS[date.month - 1]
+			# If a valide result already exists
+			if( db.exists_result(user_input, "was_born") ):
+				result = db.get_result(user_input, "was_born", "Result")
 
-			api_input = "people born in " + month + ' ' + str(date.day) + ' ' + str(date.year)
-			api_answer, success = api_call(api_input, get_schema_parser('was_born'))
+			# Else use API to generate new one and then store it
+			else:
+				# Translating month number to string
+				month = MONTHS[date.month - 1]
+				api_input = "people born in " + month + ' ' + str(date.day) + ' ' + str(date.year)
+				api_answer, success = api_call(api_input, get_schema_parser('was_born'))
+				if (success):
+					# Getting result
+					result = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
+					result = result.split('|')
+					result[-1] = result[-1].split('(total')[0]
+					db.store_result(result, "was_born",  user_input, "Result")
+
 
 			if ( success ):
 				# Storing user input on DB
-				store_user_input("was_born", date.strftime("%d-%m-%Y"))
-
-				# Getting result
-				result = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
-				result = result.split('|')
-				result[-1] = result[-1].split('(total')[0]
+				db.store_user_input("was_born", user_input)
 
 				return render(request,'was_born.html', {'user_picked': user_pick, 
 													 'formAction': "was_born", 
 													 'form': validate,
-													 'entries': get_entries(),
+													 'entries': db.get_entries(),
 													 'results' : result
 													 })
 
@@ -199,25 +224,37 @@ def calories_on(request):
 		# Filling InputForm with request
 		validate = InputForm(request.POST)
 		# Getting title for "calories_on" action
-		user_pick = get_user_pick("calories_on")
+		user_pick = db.get_user_pick("calories_on")
 
 		# If form is valid prepare API call
 		if( validate.is_valid() ):
-			api_input = "calories on " + validate.cleaned_data['input_form']
-			api_answer, success = api_call(api_input, get_schema_parser('calories_on'))
+			user_input = validate.cleaned_data['input_form']
+			success = True
+
+			# If a valide result already exists
+			if( db.exists_result( user_input, "calories_on") ):
+				calories = db.get_result( user_input, "calories_on", "Result")[0]
+				rdf = db.get_result( user_input, "calories_on", "RDVPod")[0]
+			else:
+				api_input = "calories on " + validate.cleaned_data['input_form']
+				api_answer, success = api_call(api_input, get_schema_parser('calories_on'))
+				if ( success ):
+					calories = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
+					rdf = api_answer.findtext('./pod[@id=\'RDVPod:Calories:ExpandedFoodData\']/subpod/plaintext').split("|", 3)[-1].replace("\n"," ")
+					db.store_result([calories], "calories_on",  user_input, "Result")
+					db.store_result([rdf], "calories_on",  user_input, "RDVPod")
 
 			if ( success ):
 				# Storing user input on DB
-				store_user_input("calories_on", validate.cleaned_data['input_form'])
-				# Transforming XML into HTML
-				results = transform(api_answer, "calories_on")
+				db.store_user_input("calories_on", validate.cleaned_data['input_form'])
 
-				return render(request,'results.html', {'user_picked': user_pick, 
-													 'formAction': "calories_on", 
-													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
-													 })
+				return render(request,'calories_on.html', {'user_picked': user_pick, 
+														 'formAction': "calories_on", 
+														 'form': validate,
+														 'entries': db.get_entries(),
+														 'calories' : calories,
+														 'rdf' : rdf
+														 })
 
 		# Form not valid - render index
 		return render_index(request, user_pick, "calories_on", validate, True)
@@ -228,7 +265,7 @@ def calories_on(request):
 
 
 '''
-	Answer to "Biggest in the world"
+	Answer to "Hows the weather in"
 
 	'''
 def weather(request):
@@ -236,24 +273,34 @@ def weather(request):
 		# Filling InputForm with request
 		validate = InputForm(request.POST)
 		# Getting title for "weather" action
-		user_pick = get_user_pick("weather")
+		user_pick = db.get_user_pick("weather")
 
 		# If form is valid prepare API call
 		if( validate.is_valid() ):
-			api_input = "weather in" + validate.cleaned_data['input_form']
-			api_answer, success = api_call(api_input, get_schema_parser('weather'))
+			user_input = validate.cleaned_data['input_form']
+			success = True
+
+			# If a valide result already exists
+			if( db.exists_result( user_input, "weather") ):
+				result = db.get_result( user_input, "weather", "WeatherForecast")[0]
+			else:
+				api_input = "weather in " + user_input
+				api_answer, success = api_call(api_input, get_schema_parser('weather'))
+				if ( success ):
+					result = api_answer.findtext('./pod[@id=\'WeatherForecast:WeatherData\']/subpod/plaintext').replace("\n"," ")
+					db.store_result([result], "weather",  user_input, "WeatherForecast")
 
 			if ( success ):
 				# Storing user input on DB
-				store_user_input("weather", validate.cleaned_data['input_form'])
-				# Transforming XML into HTML
-				results = transform(api_answer, "weather")
+				db.store_user_input("weather", validate.cleaned_data['input_form'])
 
-				return render(request,'results.html', {'user_picked': user_pick, 
+				result = result.split("|")[0]
+
+				return render(request,'weather.html', {'user_picked': user_pick, 
 													 'formAction': "weather", 
 													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
+													 'entries': db.get_entries(),
+													 'result' : result
 													 })
 
 		# Form not valid - render index
@@ -268,7 +315,7 @@ def render_index(request, user_picked, formAction, form, error):
 	return render(request,'index.html', {	 'user_picked': user_picked, 
 											 'formAction':  formAction, 
 											 'form': 		form,
-											 'entries': 	get_entries(),
+											 'entries': 	db.get_entries(),
 											 'error' : 		error,
 											 'feed' : 		get_feed()
 											 })
@@ -287,7 +334,7 @@ def about(request):
 
 	'''
 def report(request):
-	return FileResponse(open('app/static/EDC_report_tp1.pdf', 'rb'), content_type='application/pdf')
+	return FileResponse(open('app/static/EDC_report_tp2.pdf', 'rb'), content_type='application/pdf')
 
 
 
@@ -320,192 +367,6 @@ def get_schema_parser(action):
 	return parser
 
 
-'''
-	GraphDB FUNCTIONS
-
-	'''	
-
-# return db session
-def get_db_session():
-	return False
-	try:
-		client = ApiClient(endpoint=endpoint)
-		accessor = GraphDBApi(client)
-	except Exception as e:
-		print( e )
-		print('I was unable to connect to DataBase. Is BaseXServer running? You should have a DataBase called "entries".')
-		return False
-
-
-# return list of entries on db
-def get_entries():
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-		SELECT ?title
-		WHERE {
-		    ?some_entrie pred:title ?title
-		}
-	"""
-
-	query = {"query": query}
-	result = accessor.sparql_select(body=query,repo_name=repository)
-	result = json.loads(result)['results']['bindings']
-
-	entries = [title['title']['value'] for title in result]
-
-	return entries
-
-
-# given an user_pick, returns the form action
-def get_form_action(user_pick):
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-		SELECT ?action
-		WHERE {
-		    ?d pred:title \"""" + user_pick + """\".
-		    ?d pred:action ?action
-		}
-	"""
-
-	query = {"query": query}
-	result = accessor.sparql_select(body=query,repo_name=repository)
-	result = json.loads(result)['results']['bindings']
-
-	action = result[0]['action']['value']
-
-	return action
-
-
-# given a form_action, returns the user_pick
-def get_user_pick(form_action):
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-		SELECT ?user_pick
-		WHERE {
-		    ?d pred:action \"""" + form_action + """\".
-		    ?d pred:title ?user_pick
-		}
-	"""
-
-	query = {"query": query}
-	result = accessor.sparql_select(body=query,repo_name=repository)
-	result = json.loads(result)['results']['bindings']
-	title = result[0]['user_pick']['value']
-
-	return title
-
-def store_user_input(action, user_input):
-	exists = check_if_exists(action, user_input)
-
-	if(exists):
-		current_value = get_current_value(action, user_input)
-		update_times(action, user_input, current_value + 1)
-	else:
-		add_input(action, user_input)
-
-
-def add_input(action, user_input):
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-        PREFIX user_inputs: <http://www.entries.com/user_inputs/>
-		PREFIX input: <http://www.entries.com/input/>
-
-		INSERT DATA{
-		    user_inputs:"""+action+""" pred:user_input input:"""+user_input+""".
-		    input:"""+user_input+""" pred:input \""""+user_input+"""\".
-		    input:"""+user_input+""" pred:times "1".
-		}
-	"""
-
-	query = {"update": query}
-	result = accessor.sparql_update(body=query,repo_name=repository)
-
-
-def update_times(action, user_input, value):
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-
-		DELETE{ 
-		    $c pred:times $oldtimes
-		 }
-		INSERT{  
-		    $c pred:times \""""+str(value)+"""\"
-		}
-		WHERE{ 
-		    $d pred:action \""""+action+"""\".
-		    $d pred:user_inputs $user_input.
-		    $user_input pred:user_input $c.
-		    $c pred:input \""""+user_input+"""\".
-    		$c pred:times $oldtimes.
-		}
-	"""
-
-	query = {"update": query}
-	result = accessor.sparql_update(body=query,repo_name=repository)
-
-
-
-def get_current_value(action, user_input):
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-        PREFIX input: <http://www.entries.com/input/>
-
-		SELECT ?times
-		WHERE{
-		    $d pred:action \""""+action+"""\".
-		    $d pred:user_inputs $user_input.
-		    $user_input pred:user_input $c.
-		    $c pred:input \""""+user_input+"""\".
-		    $c pred:times ?times
-		}
-	"""
-
-	query = {"query": query}
-	result = accessor.sparql_select(body=query,repo_name=repository)
-	result = json.loads(result)['results']['bindings']
-
-	times = result[0]['times']['value']
-	return int(times)
-
-
-def check_if_exists(action, user_input):
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-
-		ASK{
-			$d pred:action \""""+action+"""\".
-		    $d pred:user_inputs $user_input.
-		    $user_input pred:user_input $c.
-		    $c pred:input \""""+user_input+"""\"
-		}
-	"""
-
-	query = {"query": query}
-	result = accessor.sparql_select(body=query,repo_name=repository)
-	result = json.loads(result)['boolean']
-	return result
-
-def get_most_common(action):
-	query = """
-        PREFIX pred: <http://www.entries.com/pred/>
-		PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-		SELECT ?user_inputs
-		WHERE {
-		    ?d pred:action \""""+action+"""\".
-		    ?d pred:user_inputs ?b.
-		    ?b pred:user_input ?c.
-		    ?c pred:input ?user_inputs.
-		    ?c pred:times ?times
-		}
-		ORDER BY DESC(xsd:nonNegativeInteger(?times))
-	"""
-
-	query = {"query": query}
-	result = accessor.sparql_select(body=query,repo_name=repository)
-	result = json.loads(result)['results']['bindings']
-	common = result[0]['user_inputs']['value']
-
-	return common
 
 '''
 	Reddit's ATOM feed
