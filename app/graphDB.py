@@ -1,6 +1,7 @@
 import json
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
+import time
 
 endpoint = "http://localhost:7200"
 repository = "entries"
@@ -81,14 +82,14 @@ def add_input(action, user_input):
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
         PREFIX user_inputs: <http://www.entries.com/user_inputs/>
-		PREFIX input: <http://www.entries.com/input/>
+		PREFIX input: <http://www.entries.com/user_inputs/"""+action+"""/"""+user_input+""">
 		PREFIX result: <http://www.entries.com/result/"""+action+"""/"""+user_input+""">
 
 		INSERT DATA{
-		    user_inputs:"""+action+""" pred:user_input input:"""+user_input+""".
-		    input:"""+user_input+""" pred:input \""""+user_input+"""\".
-		    input:"""+user_input+""" pred:times "1".
-		    input:"""+user_input+""" pred:result result:
+		    user_inputs:"""+action+""" pred:user_input input:.
+		    input: pred:input \""""+user_input+"""\".
+		    input: pred:times "1".
+		    input: pred:result result:
 		}
 	"""
 
@@ -219,6 +220,8 @@ def exists_result(user_input, action):
 		    $c pred:input \""""+ user_input +"""\".
 		    $c pred:result $r.
 		    $r pred:has_pod $p.
+		    $r pred:expires $timestamp.
+		    FILTER($timestamp > """+ str(int(time.time())) +""")
 		}
 	"""
 
@@ -229,14 +232,19 @@ def exists_result(user_input, action):
 
 
 # store result into db
-def store_result(results, action, user_input, pod_name):
+def store_result(results, action, user_input, pod_name, time_to_expirate):
 	delete_old_result(action, user_input, pod_name)
+
+	expires_in = int(time.time()) + time_to_expirate
+
 	query = """
         PREFIX pred: <http://www.entries.com/pred/>
 		PREFIX pod: <http://www.entries.com/pod/"""+action+"""/"""+user_input+"""/"""+pod_name+""">
 
 		INSERT{ $r pred:has_pod pod:.
-				pod: pred:id \""""+pod_name+"""\"."""
+				pod: pred:id \""""+pod_name+"""\".
+				$r pred:expires """+str(expires_in)+""".
+				"""
 
 	for result in results:
 		query += """ pod: pred:content \"""" + result + """\". """
@@ -266,10 +274,12 @@ def delete_old_result(action, user_input, pod_name):
 
 		DELETE{
 		    $r pred:has_pod pod:.
+		    $r pred:expires ?e.
 		    pod: $somethingpred $somethingobj
 		}
 		WHERE { 
 		    $r pred:has_pod pod:.
+		    $r pred:expires ?e.
 		    pod: $somethingpred $somethingobj
 		}
 	"""

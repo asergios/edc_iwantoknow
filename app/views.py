@@ -7,6 +7,7 @@ import lxml.etree as eTree
 import requests
 from .forms import *
 import time
+import datetime
 
 
 from app import graphDB as db
@@ -89,7 +90,8 @@ def b_day(request):
 					# Getting DifferenceConversions with the results we want
 					diff_days = api_answer.findall('./pod[@id=\'DifferenceConversions\']/subpod/plaintext')
 					diff_days = [d.text for d in diff_days]
-					db.store_result(diff_days, "b_day", date.strftime("%d-%m-%Y"), "DifferenceConversions")
+					seconds_to_midnight = (24 - datetime.datetime.now().hour) * 60
+					db.store_result(diff_days, "b_day", date.strftime("%d-%m-%Y"), "DifferenceConversions", seconds_to_midnight)
 
 			if ( success ):
 				# Storing user input on DB
@@ -138,8 +140,8 @@ def time_in(request):
 					hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 					time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
 					time_offset = "+0" if time_offset is None else time_offset
-					db.store_result([hours_in_location], "time_in",  user_input, "Result")
-					db.store_result([time_offset], "time_in", user_input, "TimeOffsets")
+					db.store_result([hours_in_location], "time_in",  user_input, "Result", 30)
+					db.store_result([time_offset], "time_in", user_input, "TimeOffsets", 30)
 
 			if ( success ):
 				# Storing user input on DB
@@ -193,7 +195,7 @@ def was_born(request):
 					result = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 					result = result.split('|')
 					result[-1] = result[-1].split('(total')[0]
-					db.store_result(result, "was_born",  user_input, "Result")
+					db.store_result(result, "was_born",  user_input, "Result", 604800)
 
 
 			if ( success ):
@@ -241,8 +243,8 @@ def calories_on(request):
 				if ( success ):
 					calories = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 					rdf = api_answer.findtext('./pod[@id=\'RDVPod:Calories:ExpandedFoodData\']/subpod/plaintext').split("|", 3)[-1].replace("\n"," ")
-					db.store_result([calories], "calories_on",  user_input, "Result")
-					db.store_result([rdf], "calories_on",  user_input, "RDVPod")
+					db.store_result([calories], "calories_on",  user_input, "Result", 604800)
+					db.store_result([rdf], "calories_on",  user_input, "RDVPod", 604800)
 
 			if ( success ):
 				# Storing user input on DB
@@ -288,7 +290,7 @@ def weather(request):
 				api_answer, success = api_call(api_input, get_schema_parser('weather'))
 				if ( success ):
 					result = api_answer.findtext('./pod[@id=\'WeatherForecast:WeatherData\']/subpod/plaintext').replace("\n"," ")
-					db.store_result([result], "weather",  user_input, "WeatherForecast")
+					db.store_result([result], "weather",  user_input, "WeatherForecast", 900)
 
 			if ( success ):
 				# Storing user input on DB
