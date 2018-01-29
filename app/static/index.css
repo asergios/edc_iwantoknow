@@ -1,5 +1,6 @@
 html {
   	background-color: #616161;
+  	background-image: url('images/background.jpg');
   	font-family: 'Rajdhani', sans-serif;
 }
 
@@ -73,6 +74,7 @@ body {
 /* DROPDOWN MENU */
 
 .dropdown-button{
+	border-radius: 10px;
 	background-color: #333;
     color: white;
     padding: 16px;
@@ -132,7 +134,7 @@ body {
 	width: 100%;
     box-sizing: border-box;
     border: 2px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: white;
     background-image: url('images/searchicon.png');
     background-size: 20px 20px;
@@ -147,7 +149,7 @@ body {
 	width: 100%;
     box-sizing: border-box;
     border: 2px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     background-color: white;
     background-image: url('images/searchicon.png');
     background-size: 20px 20px;

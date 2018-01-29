@@ -27,10 +27,10 @@ class index(View):
 
 	# Response for a GET request, simply returns index page
 	def get(self, request, *args, **kwargs):
-		return render(request,'index.html', { 'formAction': '' , 
-											  'form': '',
-											  'entries': get_entries(),
-											  'feed' : get_feed()
+		return render(request,'index.html', { 'formAction'	: '' , 
+											  'form'		: '',
+											  'entries'		: get_entries(),
+											  'feed' 		: get_feed()
 											})
 
 	# Response for a POST request, returns index page, now with the form for the user to fill
@@ -38,11 +38,11 @@ class index(View):
 		if "pick" in request.POST:
 			user_pick = request.POST.get("pick")
 			action, form = self.translate_user_pick(user_pick)
-			return render(request,'index.html', {'user_picked': user_pick, 
-												 'formAction': action, 
-												 'form': form,
-												 'entries': get_entries(),
-												 'feed' : get_feed()
+			return render(request,'index.html', {'user_picked'	: user_pick, 
+												 'formAction'	: action, 
+												 'form'			: form,
+												 'entries'		: get_entries(),
+												 'feed' 		: get_feed()
 												 })
 		else:
 			# TODO: this works?
@@ -85,11 +85,11 @@ def b_day(request):
 				# Transforming XML into HTML
 				results = transform(api_answer, "b_day")
 				# Rendering
-				return render(request,'results.html', {'user_picked': user_pick, 
-													 'formAction': "b_day", 
-													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
+				return render(request,'results.html', {	'user_picked'	: user_pick, 
+													 	'formAction'	: "b_day", 
+													 	'form'			: validate,
+													 	'entries'		: get_entries(),
+													 	'results' 		: results
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -122,14 +122,14 @@ def time_in(request):
 				# Transforming XML into HTML
 				results = transform(api_answer, "time_in")
 
-				return render(request,'results.html', {'user_picked': user_pick, 
-													 'formAction': "time_in", 
-													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
+				return render(request,'results.html', {	'user_picked'	: user_pick, 
+													 	'formAction'	: "time_in", 
+													 	'form'			: validate,
+													 	'entries'		: get_entries(),
+													 	'results' 		: results
 													 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "time_in", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
@@ -167,14 +167,14 @@ def was_born(request):
 				result = result.split('|')
 				result[-1] = result[-1].split('(total')[0]
 
-				return render(request,'was_born.html', {'user_picked': user_pick, 
-													 'formAction': "was_born", 
-													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : result
+				return render(request,'was_born.html', {	'user_picked'	: user_pick, 
+													 		'formAction'	: "was_born", 
+													 		'form'			: validate,
+													 		'entries'		: get_entries(),
+													 		'results' 		: result
 													 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "was_born", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
@@ -204,14 +204,14 @@ def calories_on(request):
 				# Transforming XML into HTML
 				results = transform(api_answer, "calories_on")
 
-				return render(request,'results.html', {'user_picked': user_pick, 
-													 'formAction': "calories_on", 
-													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
+				return render(request,'results.html', {	'user_picked'	: user_pick, 
+													 	'formAction'	: "calories_on", 
+													 	'form'			: validate,
+													 	'entries'		: get_entries(),
+													 	'results' 		: results
 													 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "calories_on", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
@@ -220,7 +220,7 @@ def calories_on(request):
 
 
 '''
-	Answer to "Biggest in the world"
+	Answer to "How is the weather in"
 
 	'''
 def weather(request):
@@ -241,14 +241,14 @@ def weather(request):
 				# Transforming XML into HTML
 				results = transform(api_answer, "weather")
 
-				return render(request,'results.html', {'user_picked': user_pick, 
-													 'formAction': "weather", 
-													 'form': validate,
-													 'entries': get_entries(),
-													 'results' : results
+				return render(request,'results.html', {	'user_picked'	: user_pick, 
+													 	'formAction'	: "weather", 
+													 	'form'			: validate,
+													 	'entries'		: get_entries(),
+													 	'results' 		: results
 													 })
 
-		# Form not valid - render index
+		# Form not valid / render index where error will be shown
 		return render_index(request, user_pick, "weather", validate, True)
 
 	# If the request was a GET (or something not a POST), the user is redirected to index page
