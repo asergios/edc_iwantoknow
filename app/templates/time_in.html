@@ -1,14 +1,14 @@
 {% extends "results.html" %}
 
 {% block final %}
-		<div class="bday-results"
+		<div class="time_in-results"
 								xmlns:pred= "http://www.entries.com/pred/" 
 								about= "http://www.entries.com/result/time_in/{{user_input}}"
 								typeof= "pred:result">
-			<h1> It is </h1>
+			<h1> It is 
 
 			<span rel="pred:has_pod" href="http://www.entries.com/pod/time_in/{{user_input}}/Result">
-				<h3 property="pred:content" >{{ hour }}</h3>
+				<span property="pred:content" >{{ hour }} </span> </h1>
 			</span>
 
 			<h2> which gives a difference of </h2>
@@ -16,6 +16,8 @@
 			<span rel="pred:has_pod" href="http://www.entries.com/pod/time_in/{{user_input}}/TimeOffsets">
 				<h3 property="pred:content" >{{ offset }}</h3>
 			</span>
+
+			<img style="float:right" src="{{pic}}" height="300" width="300">
 		</div>
 
 {% endblock %}

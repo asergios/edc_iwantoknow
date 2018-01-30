@@ -83,10 +83,13 @@ body {
     cursor: pointer;
     width: 20vw;
     font-size: 0.8vw;
+    height: 50px;
 }
 
 .dropdown-menu {
+	height: 5vw;
     display: inline-block;
+    float: left;
 }
 
 .dropdown-items {
@@ -137,7 +140,7 @@ body {
     border-radius: 10px;
     background-color: white;
     background-image: url('images/searchicon.png');
-    background-size: 20px 20px;
+    background-size: 25px 25px;
     background-position: 10px 10px; 
     background-repeat: no-repeat;
     padding: 12px 20px 12px 40px;
@@ -152,7 +155,7 @@ body {
     border-radius: 10px;
     background-color: white;
     background-image: url('images/searchicon.png');
-    background-size: 20px 20px;
+    background-size: 25px 25px;
     background-position: 10px 10px; 
     background-repeat: no-repeat;
     padding: 12px 20px 12px 40px;
@@ -165,17 +168,31 @@ body {
 /* RESULTS */
 
 .bday-results{
+	color: white;
 	display: table;
-	padding-top: 20px;
+	padding-top: 0.5vw;
 	text-align: center;
+	margin: 2px auto;
+}
+
+.time_in-results{
+	color: white;
+	padding-top: 5vw;
+	width: 35%;
 	margin: 0 auto;
+	text-align: left;
 }
 
 .form-div{
 	display: inline-block;
-	width: 15vw;
+	width: 13vw;
+	height: 5vw;
 	float:right;
 	margin: 0 auto;
+}
+
+.form-div input{
+	height: 50px;
 }
 
 .error{
@@ -232,7 +249,7 @@ body {
 /* END OF ATOM FEED */
 
 .was_born{
-	color: black; 
+	color: white; 
 	font-weight: normal;
 	text-decoration: none;
 }

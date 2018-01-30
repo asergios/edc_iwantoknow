@@ -148,19 +148,21 @@ def time_in(request):
 					hours_in_location = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
 					time_offset = api_answer.findtext('./pod[@id=\'TimeOffsets\']/subpod/plaintext')
 					# If Location is at same location, time_offset will return None
-					time_offset = "+0" if time_offset is None else time_offset
+					time_offset = "+0 hours" if time_offset is None else time_offset
 					# Storing Results
 					db.store_result([hours_in_location], "time_in",  user_input, "Result", 30)
 					db.store_result([time_offset], "time_in", user_input, "TimeOffsets", 30)
 
 			if ( success ):
+				pic = wiki.get_pic_location(user_input)				
 				return render(request,'time_in.html', {	'user_picked'	: user_pick, 
 													 	'user_input' 	: user_input,
 													 	'formAction'	: "time_in", 
 													 	'form'			: validate,
 													 	'entries'		: db.get_entries(),
 													 	'hour' 			: hours_in_location,
-													 	'offset' 		: time_offset
+													 	'offset' 		: time_offset,
+													 	'pic'			: pic
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -207,15 +209,14 @@ def was_born(request):
 
 
 			if ( success ):
-				pics = [wiki.get_person_pic(name) for name in result]
-				result = zip(result, pics)
+				pic_and_description = [wiki.get_person_pic(name) for name in result]
+				result = zip(result, pic_and_description)
 				return render(request,'was_born.html', {	'user_picked'	: user_pick, 
 													 		'user_input' 	: user_input,
 													 		'formAction'	: "was_born", 
 													 		'form'			: validate,
 													 		'entries'		: db.get_entries(),
 													 		'results' 		: result,
-													 		'pics'			: pics
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -266,7 +267,6 @@ def calories_on(request):
 														 	'entries'		: db.get_entries(),
 														 	'calories' 		: calories,
 														 	'rdf' 			: rdf,
-														 	'pic'			: pic
 														 })
 
 		# Form not valid / render index where error will be shown
@@ -306,12 +306,14 @@ def weather(request):
 
 			if ( success ):
 				result = result.split("|")[0]
+				pic = wiki.get_pic_location(user_input)	
 				return render(request,'weather.html', {	'user_picked'	: user_pick, 
 														'user_input'	: user_input,
 													 	'formAction'	: "weather", 
 													 	'form'			: validate,
 													 	'entries'		: db.get_entries(),
-													 	'result' 		: result
+													 	'result' 		: result,
+													 	'pic'			: pic
 													 })
 
 		# Form not valid / render index where error will be shown
