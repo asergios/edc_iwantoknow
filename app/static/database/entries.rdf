@@ -15,7 +15,9 @@
                         <pred:input>2000-12-01</pred:input>
                         <pred:times>1</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/b_day/2000-12-01"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/b_day/2000-12-01">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -24,7 +26,9 @@
                         <pred:input>01-12-2000</pred:input>
                         <pred:times>64</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/b_day/01-12-2000"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/b_day/01-12-2000">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -33,7 +37,9 @@
                         <pred:input>01-01-2018</pred:input>
                         <pred:times>1</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/b_day/01-01-2018"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/b_day/01-01-2018">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -48,11 +54,13 @@
             <pred:user_inputs>
                <rdf:Description rdf:about="http://www.entries.com/user_inputs/time_in">
                   <pred:user_input>
-                     <rdf:Description rdf:about="http://www.entries.com/user_inputs/time_in/ Moscow ">
-                        <pred:input> Moscow </pred:input>
+                     <rdf:Description rdf:about="http://www.entries.com/user_inputs/time_in/Moscow">
+                        <pred:input>Moscow</pred:input>
                         <pred:times>2</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/ Moscow "/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/Moscow">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -61,7 +69,9 @@
                         <pred:input>Spain</pred:input>
                         <pred:times>10</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/Spain"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/Spain">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -70,7 +80,9 @@
                         <pred:input>Russia</pred:input>
                         <pred:times>1</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/Russia"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/Russia">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -79,7 +91,9 @@
                         <pred:input>Moscow</pred:input>
                         <pred:times>4</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/Moscow"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/time_in/Moscow">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -98,7 +112,9 @@
                         <pred:input>1996-12-18</pred:input>
                         <pred:times/>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/1996-12-18"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/1996-12-18">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -107,7 +123,9 @@
                         <pred:input>18-12-1996</pred:input>
                         <pred:times>6</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/18-12-1996"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/18-12-1996">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -116,7 +134,9 @@
                         <pred:input>18-12-1990</pred:input>
                         <pred:times>33</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/18-12-1990"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/18-12-1990">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -125,7 +145,9 @@
                         <pred:input>03-10-1998</pred:input>
                         <pred:times>2</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/03-10-1998"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/was_born/03-10-1998">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -144,7 +166,9 @@
                         <pred:input>Apple</pred:input>
                         <pred:times>4</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/calories_on/Apple"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/calories_on/Apple">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -153,7 +177,9 @@
                         <pred:input>Chocolate</pred:input>
                         <pred:times>1</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/calories_on/Chocolate"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/calories_on/Chocolate">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -162,7 +188,9 @@
                         <pred:input>Potato</pred:input>
                         <pred:times>1</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/calories_on/Potato"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/calories_on/Potato">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -181,7 +209,9 @@
                         <pred:input>Moscow</pred:input>
                         <pred:times>4</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/weather/Moscow"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/weather/Moscow">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>
@@ -190,7 +220,9 @@
                         <pred:input>Tokyo</pred:input>
                         <pred:times>1</pred:times>
                         <pred:result>
-                           <rdf:Description rdf:about="http://www.entries.com/result/weather/Tokyo"/>
+                           <rdf:Description rdf:about="http://www.entries.com/result/weather/Tokyo">
+                              <pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
+                           </rdf:Description>
                         </pred:result>
                      </rdf:Description>
                   </pred:user_input>

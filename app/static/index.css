@@ -14,7 +14,17 @@ body {
 }
 
 .about{
+	color: white;
 	font-size: 1vw;
+}
+
+.about a {
+	color: white; 
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.about a:hover{
 	font-weight: bold;
 }
 

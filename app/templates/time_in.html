@@ -17,7 +17,9 @@
 				<h3 property="pred:content" >{{ offset }}</h3>
 			</span>
 
-			<img style="float:right" src="{{pic}}" height="300" width="300">
+			{% if pic %}
+				<img style="float:right" src="{{pic}}" height="300" width="300">
+			{% endif %}
 		</div>
 
 {% endblock %}
