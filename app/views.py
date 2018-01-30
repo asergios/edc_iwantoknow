@@ -11,6 +11,7 @@ import datetime
 
 # Importing graphDB functions
 from app import graphDB as db
+from app import wikidata as wiki
 
 # My WolframAlpha API key, please be gentle, max. 2000 requests per month
 USE_API 	=  True # Set to False when debbuging, in order to don't queries
@@ -186,7 +187,7 @@ def was_born(request):
 			success 	= True
 
 			# Checking if a valid result for this input already exist, if it does, get it
-			if( db.exists_result(user_input, "was_born") ):
+			if(db.exists_result(user_input, "was_born") ):
 				result = db.get_result(user_input, "was_born", "Result")
 				db.store_user_input("was_born", user_input)  # Storing user input on DB
 
@@ -200,18 +201,21 @@ def was_born(request):
 					db.store_user_input("was_born", user_input)  # Storing user input on DB
 					# Getting result wanted with XPath
 					result = api_answer.findtext('./pod[@id=\'Result\']/subpod/plaintext')
-					result = result.split('|')
-					result[-1] = result[-1].split('(total')[0]
+					result = result.split(' | ')
+					result[-1] = result[-1].split(' (total')[0]
 					db.store_result(result, "was_born",  user_input, "Result", 604800)
 
 
 			if ( success ):
+				pics = [wiki.get_person_pic(name) for name in result]
+				result = zip(result, pics)
 				return render(request,'was_born.html', {	'user_picked'	: user_pick, 
 													 		'user_input' 	: user_input,
 													 		'formAction'	: "was_born", 
 													 		'form'			: validate,
 													 		'entries'		: db.get_entries(),
-													 		'results' 		: result
+													 		'results' 		: result,
+													 		'pics'			: pics
 													 })
 
 		# Form not valid / render index where error will be shown
@@ -261,7 +265,8 @@ def calories_on(request):
 														 	'form'			: validate,
 														 	'entries'		: db.get_entries(),
 														 	'calories' 		: calories,
-														 	'rdf' 			: rdf
+														 	'rdf' 			: rdf,
+														 	'pic'			: pic
 														 })
 
 		# Form not valid / render index where error will be shown

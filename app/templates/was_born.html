@@ -10,9 +10,17 @@
 			<h1> People Born in this day: </h1>
 
 			<span rel="pred:has_pod" href="http://www.entries.com/pod/was_born/{{user_input}}/Result">
-				{% for r in results %}
-					<h3> <a class="was_born" href='https://www.google.com/search?q={{r}}' > <span property="pred:content"> {{r}} </span> </a> </h3>
+				{% for r, p in results %}
+					<div class="was_born_div">
+						<h3> <a class="was_born" href='https://www.google.com/search?q={{r}}' > <span property="pred:content"> {{r}} </span> </a> </h3>
+					{% if p %}
+						<img src="{{p}}" height="200" width="200">
+					{% else %}
+						<img src="http://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg" height="200" width="200">
+					{% endif %}
+					</div>
 				{% endfor %}
+				
 			</span>
 		</div>
 

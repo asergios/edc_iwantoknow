@@ -165,8 +165,10 @@ body {
 /* RESULTS */
 
 .bday-results{
+	display: table;
 	padding-top: 20px;
 	text-align: center;
+	margin: 0 auto;
 }
 
 .form-div{
@@ -237,4 +239,10 @@ body {
 
 .was_born:hover {
 	font-weight: bold;
+}
+
+.was_born_div {
+	display: inline;
+	float: left;
+	margin: 10px;
 }

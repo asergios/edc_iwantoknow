@@ -5,8 +5,13 @@ import time
 
 endpoint = "http://localhost:7200"
 repository = "entries"
-client = ApiClient(endpoint=endpoint)
-accessor = GraphDBApi(client)
+
+try:
+	client = ApiClient(endpoint=endpoint)
+	accessor = GraphDBApi(client)
+except Exception as e:
+	print(e)
+	print("ERROR: I had trouble connecting to GraphDB!")
 
 
 
