@@ -60,11 +60,11 @@
 
 		<div class="bday-results">
 			<h1> People Born in this day: </h1>
-
+			<ul>
 			{% for r in results %}
-				<h3> <a class="was_born" href='https://www.google.com/search?q={{r}}' > {{r}} </a> </h3>
+					<li> <h3> <a class="was_born" href='https://www.google.com/search?q={{r}}' > {{r}} </a> </h3> </li>
 			{% endfor %}
-
+			</ul>
 		</div>
 
 	</body>

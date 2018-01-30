@@ -3,9 +3,11 @@
 
     <xsl:template match="/">
 
+    	<xsl:param name="text" select=".//pod[@id='RDVPod:Calories:ExpandedFoodData']/subpod/plaintext"/>
+
     	<div class="bday-results">
 			<h1> It has about <xsl:value-of select=".//pod[@id='Result']/subpod/plaintext"/> calories! </h1> 
-			<h3> <xsl:value-of select=".//pod[@id='RDVPod:Calories:ExpandedFoodData']/subpod/plaintext"/> </h3>
+			<h3> <xsl:value-of select="substring-after($text, 'RDA |')"/> </h3>
 		</div>
 
     </xsl:template>

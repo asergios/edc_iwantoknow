@@ -3,7 +3,7 @@
     <title>How much time has passed since my birthday</title>
     <action>b_day</action>
     <user_inputs>
-      <user_input times="1"> 2000-12-01 </user_input>
+      <user_input times="1">2000-12-01</user_input>
       <user_input times="64">01-12-2000</user_input>
       <user_input times="1">01-01-2018</user_input>
     </user_inputs>
@@ -12,7 +12,7 @@
     <title>What time is it in</title>
     <action>time_in</action>
     <user_inputs>
-      <user_input times="2"> Moscow </user_input>
+      <user_input times="2">Moscow</user_input>
       <user_input times="10">Spain</user_input>
       <user_input times="1">Russia</user_input>
       <user_input times="4">Moscow</user_input>

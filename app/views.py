@@ -45,8 +45,7 @@ class index(View):
 												 'feed' 		: get_feed()
 												 })
 		else:
-			# TODO: this works?
-			return self.get()
+			return redirect('index')
 
 	# From user_pick get the form actions and fields
 	def translate_user_pick(self, user_pick):
@@ -291,7 +290,7 @@ def api_call(api_input, parser):
 	call = API_LINK + api_input
 	try:
 		if(not USE_API):
-			tree = xmlParser.parse('app/static/debug_samples/query_sample.xml',parser)
+			tree = xmlParser.parse('app/static/debug_samples/bday_query.xml',parser)
 			tree = tree.getroot()
 		else:
 			response = requests.get(call)
