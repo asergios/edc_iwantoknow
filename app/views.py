@@ -278,7 +278,7 @@ def about(request):
 
 	'''
 def report(request):
-	return FileResponse(open('app/static/EDC_report_tp1.pdf', 'rb'), content_type='application/pdf')
+	return FileResponse(open('EDC_report_tp1.pdf', 'rb'), content_type='application/pdf')
 
 
 
