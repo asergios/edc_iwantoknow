@@ -43,13 +43,13 @@
 
 				        		<pred:result>
 					        		<rdf:Description rdf:about="http://www.entries.com/result/{$action}/{$input}">
-					        			<pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0<pred:expires>
+					        			<pred:expires rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</pred:expires>
 					        		</rdf:Description>
 					        	</pred:result>
 					        	
 				        	</rdf:Description>
+				        
 				        </pred:user_input>
-
 			        </xsl:for-each>
 
 			    </rdf:Description>

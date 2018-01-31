@@ -48,8 +48,7 @@ class index(View):
 												 	'feed' 			: get_feed()
 												 })
 		else:
-			# TODO: this works?
-			return self.get()
+			return redirect('index')
 
 	# From the question the user picked, get the form actions and fields
 	def translate_user_pick(self, user_pick):
@@ -337,7 +336,7 @@ def about(request):
 
 	'''
 def report(request):
-	return FileResponse(open('app/static/EDC_report_tp2.pdf', 'rb'), content_type='application/pdf')
+	return FileResponse(open('EDC_report_tp2.pdf', 'rb'), content_type='application/pdf')
 
 
 # Render Index
